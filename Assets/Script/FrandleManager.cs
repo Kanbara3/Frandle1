@@ -10,6 +10,8 @@ public class FrandleManager : MonoBehaviour
     public GameObject harttext;
     public GameObject kankeitext;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class FrandleManager : MonoBehaviour
         KankeiDirector();
     }
 
+    // 好感度(tap)の更新
     public void HartDirector()
     {
         tap += 1;
@@ -29,7 +32,7 @@ public class FrandleManager : MonoBehaviour
     }
 
     
-
+    // 好感度によって関係テキストが変化する
     public void KankeiDirector()
     {
         if (tap < 1000) // 1
