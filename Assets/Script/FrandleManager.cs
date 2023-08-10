@@ -6,28 +6,29 @@ using TMPro;
 
 public class FrandleManager : MonoBehaviour
 {
-    private int tap;
+    public int tap;
     public GameObject harttext;
     public GameObject kankeitext;
-
-    
 
     // Start is called before the first frame update
     void Start()
     {
         tap = 0;
+        GiveButton();
     }
 
     // Update is called once per frame
     void Update()
     {
         KankeiDirector();
+        
     }
 
     // çDä¥ìx(tap)ÇÃçXêV
+    int one_tap = 1;
     public void HartDirector()
     {
-        tap += 1;
+        tap += one_tap;
         this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
     }
 
@@ -123,5 +124,66 @@ public class FrandleManager : MonoBehaviour
         {
             this.kankeitext.GetComponent<TextMeshProUGUI>().text = "Ç∏Å[Ç¡Ç∆éÑÇÃÇ®Ç‡ÇøÇ·ÇÀÅI";
         }
+    }
+
+    // Ç≤ÇÕÇÒÇÃêîêßå‰
+    // Ç≤ÇÕÇÒÇÃå¬êîÇÃtext
+    public TextMeshProUGUI text_food1_1;
+    public TextMeshProUGUI text_food1_2;
+    public TextMeshProUGUI text_food1_3;
+    public TextMeshProUGUI text_food1_4;
+    // Ç≤ÇÕÇÒÇÃå¬êîÇÃint
+    int num_food1_1 = 10;
+    int num_food1_2 = 10;
+    int num_food1_3 = 10;
+    int num_food1_4 = 10;
+    // Ç≤ÇÕÇÒÇó^Ç¶ÇÈButton
+    public Button button_food1_1;
+    public Button button_food1_2;
+    public Button button_food1_3;
+    public Button button_food1_4;
+    // Ç≤ÇÕÇÒÇó^Ç¶ÇΩéûÇÃtapÇµÇΩéûÇÃçDä¥ìxëùïùó 
+    private int tap_food1_1 = 1;
+    private int tap_food1_2 = 2;
+    private int tap_food1_3 = 3;
+    private int tap_food1_4 = 4;
+    public void GiveButton()
+    {
+        button_food1_1.onClick.AddListener(() =>
+        {
+            if (num_food1_1 > 0)
+            {
+                num_food1_1 -= 1;
+                one_tap += tap_food1_1;
+                text_food1_1.text = "Å~" + " " + num_food1_1.ToString();
+            }
+        });
+        button_food1_2.onClick.AddListener(() =>
+        {
+            if (num_food1_2 > 0)
+            {
+                num_food1_2 -= 1;
+                one_tap += tap_food1_2;
+                text_food1_2.text = "Å~" + " " + num_food1_2.ToString();
+            }
+        });
+        button_food1_3.onClick.AddListener(() =>
+        {
+            if (num_food1_3 > 0)
+            {
+                num_food1_3 -= 1;
+                one_tap += tap_food1_3;
+                text_food1_3.text = "Å~" + " " + num_food1_3.ToString();
+            }
+        });
+        button_food1_4.onClick.AddListener(() =>
+        {
+            if (num_food1_4 > 0)
+            {
+                num_food1_4 -= 1;
+                one_tap += tap_food1_4;
+                text_food1_4.text = "Å~" + " " + num_food1_4.ToString();
+            }
+        });
     }
 }
