@@ -9,12 +9,13 @@ public class FrandleManager : MonoBehaviour
     public int tap;
     public GameObject harttext;
     public GameObject kankeitext;
+    int oneTapIncrease = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         tap = 0;
-        GiveButton();
+        //GiveButton();
     }
 
     // Update is called once per frame
@@ -25,10 +26,14 @@ public class FrandleManager : MonoBehaviour
     }
 
     // 好感度(tap)の更新
-    int one_tap = 1;
+    public void changeOneTapIncreaseRate(int upRate)
+    {
+        oneTapIncrease += upRate;
+    }
+    
     public void HartDirector()
     {
-        tap += one_tap;
+        tap += oneTapIncrease;
         this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
     }
 
@@ -126,6 +131,7 @@ public class FrandleManager : MonoBehaviour
         }
     }
 
+    /*
     // ごはんの数制御
     // ごはんの個数のtext
     public TextMeshProUGUI text_food1_1;
@@ -186,4 +192,5 @@ public class FrandleManager : MonoBehaviour
             }
         });
     }
+    */
 }
