@@ -19,6 +19,7 @@ public class Food : MonoBehaviour
     // ごはんを与えた時のtapした時の好感度増幅量
     public int tapFood = 1;
 
+    // ボタンを押したときにマイナス1する
     public void GiveButton()
     {
         buttonFood.onClick.AddListener(() =>
