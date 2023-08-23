@@ -1,116 +1,24 @@
 {
-    "input_File": [
+    "foodData": [
         {
             "tapIncreaseNum": "1",
-            "foodRemaining": "10"
+            "foodRemaining": "10",
+            "imagePath":  "1-1"
         },
         {
             "tapIncreaseNum": "2",
-            "foodRemaining": "10"
+            "foodRemaining": "10",
+            "imagePath": "1-2"
         },
         {
             "tapIncreaseNum": "3",
-            "foodRemaining": "10"
+            "foodRemaining": "10",
+            "imagePath": "1-3"
         },
         {
             "tapIncreaseNum": "4",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "10",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "20",
-            "foodRemaining": "10"
-        },
-        {
             "foodRemaining": "10",
-            "tapIncreaseNum": "30"
-        },
-        {
-            "tapIncreaseNum": "40",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "100",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "200",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "300",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "400",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "1000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "2000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "3000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "4000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "1000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "2000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "3000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "4000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "10000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "20000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "30000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "40000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "100000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "200000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "300000",
-            "foodRemaining": "10"
-        },
-        {
-            "tapIncreaseNum": "400000",
-            "foodRemaining": "10"
+            "imagePath": "1-4"
         }
     ]
 }

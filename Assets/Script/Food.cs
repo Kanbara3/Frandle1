@@ -6,44 +6,55 @@ using TMPro;
 
 public class Food : MonoBehaviour
 {
-    public FrandleManager frandleManager;
+    private FrandleManager frandleManager;
 
     // Ç≤ÇÕÇÒÇÃêîêßå‰
     private string foodName;
     // Ç≤ÇÕÇÒÇÃå¬êîÇÃtext
-    public TextMeshProUGUI textFood;
+    private TextMeshProUGUI foodText;
     // Ç≤ÇÕÇÒÇÃå¬êîÇÃint
     int numFood = 10;
     // Ç≤ÇÕÇÒÇó^Ç¶ÇÈButton
-    public Button buttonFood;
+    private Button foodButton;
     // Ç≤ÇÕÇÒÇó^Ç¶ÇΩéûÇÃtapÇµÇΩéûÇÃçDä¥ìxëùïùó 
     public int tapFood = 1;
+
+    private Image foodImage;
 
     // É{É^ÉìÇâüÇµÇΩÇ∆Ç´Ç…É}ÉCÉiÉX1Ç∑ÇÈ
     public void GiveButton()
     {
-        buttonFood.onClick.AddListener(() =>
+        foodButton.onClick.AddListener(() =>
         {
             if (numFood > 0)
             {
                 numFood -= 1;
                 frandleManager.changeOneTapIncreaseRate(tapFood);
-                textFood.text = "Å~" + " " + numFood.ToString();
+                foodText.text = "Å~" + " " + numFood.ToString();
             }
         });
     }
-    /*
-    public void InitFood(string imagePath, Food tapFood)
+
+    
+    public void InitFood(string imagePath, int tapFood)
     {
         this.tapFood = tapFood;
+        foodImage.sprite = Resources.Load<Sprite>("FoodImage/"+imagePath);
+            //GameObject.Find("test").transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+            //Resources.Load<Sprite>("ImageFoodImage/1-2");
+        
     }
-    */
+    
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        foodButton = this.transform.GetChild(0).GetComponent<Button>();
+        foodText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         GiveButton();
+        foodImage = this.transform.GetChild(0).GetComponent<Image>();
     }
 
     // Update is called once per frame
