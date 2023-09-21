@@ -6,10 +6,10 @@ using TMPro;
 
 public class FrandleManager : MonoBehaviour
 {
-    public int tap;
+    public long tap;
     public GameObject harttext;
     public GameObject kankeitext;
-    int oneTapIncrease = 1;
+    long oneTapIncrease = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class FrandleManager : MonoBehaviour
     }
 
     // 好感度(tap)の更新
-    public void changeOneTapIncreaseRate(int upRate)
+    public void changeOneTapIncreaseRate(long upRate)
     {
         oneTapIncrease += upRate;
     }

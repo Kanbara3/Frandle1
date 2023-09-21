@@ -13,11 +13,11 @@ public class Food : MonoBehaviour
     // Ç≤ÇÕÇÒÇÃå¬êîÇÃtext
     private TextMeshProUGUI foodText;
     // Ç≤ÇÕÇÒÇÃå¬êîÇÃint
-    int numFood = 10;
+    int numFood = 0;
     // Ç≤ÇÕÇÒÇó^Ç¶ÇÈButton
     private Button foodButton;
     // Ç≤ÇÕÇÒÇó^Ç¶ÇΩéûÇÃtapÇµÇΩéûÇÃçDä¥ìxëùïùó 
-    public int tapFood = 1;
+    public long tapFood = 1;
 
     private Image foodImage;
 
@@ -26,17 +26,16 @@ public class Food : MonoBehaviour
     {
         foodButton.onClick.AddListener(() =>
         {
-            if (numFood > 0)
-            {
-                numFood -= 1;
-                frandleManager.changeOneTapIncreaseRate(tapFood);
-                foodText.text = "Å~" + " " + numFood.ToString();
-            }
+            if (numFood == 0) return;
+            numFood -= 1;
+            Debug.Log(tapFood);
+            frandleManager.changeOneTapIncreaseRate(tapFood);
+            foodText.text = "Å~" + " " + numFood.ToString();
         });
     }
 
     
-    public void InitFood(string imagePath, int tapFood)
+    public void InitFood(string imagePath, long tapFood)
     {
         this.tapFood = tapFood;
         foodImage.sprite = Resources.Load<Sprite>("FoodImage/"+imagePath);
