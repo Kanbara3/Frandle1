@@ -19,7 +19,7 @@ public class FoodManager : MonoBehaviour
     public GameObject foodPrefab;
     public Canvas foodCanvas;
     public GameObject foodContent;
-
+    private List<GameObject> foodList = new List<GameObject>();
 
     private JsonData jsonData;
 
@@ -32,12 +32,18 @@ public class FoodManager : MonoBehaviour
         foreach (var item in jsonData.foodInfos)
         {
             //int p = i * 200;
-            Debug.Log(item.id);
             GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             newFood.transform.SetParent(foodContent.transform, false);
             newFood.GetComponent<Food>().InitFood("1-"+(item.id), long.Parse(item.like));
+            foodList.Add(newFood);
         }
-        
+
+        addFoodStock(0, 1);
+    }
+
+    public void addFoodStock(int foodId, int ct)
+    {
+        foodList[foodId].GetComponent<Food>().AddStock(ct);
     }
 
     void readJson()

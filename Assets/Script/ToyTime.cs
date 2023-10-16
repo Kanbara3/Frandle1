@@ -6,6 +6,7 @@ using TMPro;
 
 public class ToyTime : MonoBehaviour
 {
+    /*
     // スクリプト参照用
     public GameObject GameManager;
 
@@ -187,4 +188,5 @@ public class ToyTime : MonoBehaviour
             }
         }
     }
+    */
 }

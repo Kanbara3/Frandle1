@@ -44,7 +44,11 @@ public class Food : MonoBehaviour
         
     }
     
-
+    public void AddStock(int ct)
+    {
+        numFood += ct;
+        foodText.text = "Å~" + " " + numFood.ToString();
+    }
 
     // Start is called before the first frame update
     void Awake()
