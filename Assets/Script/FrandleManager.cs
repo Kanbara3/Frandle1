@@ -6,7 +6,7 @@ using TMPro;
 
 public class FrandleManager : MonoBehaviour
 {
-    public long tap;
+    public long tap=0;
     public GameObject harttext;
     public GameObject kankeitext;
     long oneTapIncrease = 1;
@@ -14,14 +14,16 @@ public class FrandleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tap = 0;
+        //tap = 0;
         //GiveButton();
+        LoadTap();
     }
 
     // Update is called once per frame
     void Update()
     {
         KankeiDirector();
+        SaveTap();
         
     }
 
@@ -31,9 +33,22 @@ public class FrandleManager : MonoBehaviour
         oneTapIncrease += upRate;
     }
     
+    // BackgroundとFrandleでEventTriggerにアタッチ
     public void HartDirector()
     {
         tap += oneTapIncrease;
+        this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
+    }
+
+    // 好感度セーブ
+    public void SaveTap()
+    {
+        PlayerPrefs.SetString("saveTap", tap.ToString());
+    }
+    //好感度ロード
+    public void LoadTap()
+    {
+        tap = long.Parse(PlayerPrefs.GetString("saveTap", (000).ToString()));
         this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
     }
 
