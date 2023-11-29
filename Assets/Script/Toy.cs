@@ -32,15 +32,19 @@ public class Toy : MonoBehaviour
             timeButton.interactable = false; //ボタン無効化
         });
 
-        
+        LoadTimerFunction();
     }
 
     void Update()
     {
+
+        //Debug.Log(currentTime);
+
         // タイマー
         if (!isActive) { return; }
 
         currentTime = timeToPlay - (int)elapsedTime.TotalSeconds;
+        //Debug.Log(elapsedTime.TotalSeconds);
         if (currentTime > 0)
         {
             elapsedTime = DateTime.UtcNow - lastTapTime;
@@ -55,6 +59,8 @@ public class Toy : MonoBehaviour
             isActive = false;
         }
         DisplayTimerText();
+        SaveTimerFunction();
+        
     }
 
     // タイマー表示関数
@@ -67,7 +73,27 @@ public class Toy : MonoBehaviour
         minute = Mathf.FloorToInt((currentTime % 3600) / 60);
         second = Mathf.FloorToInt(currentTime % 60);
         timerText.text = hour.ToString("00") + ":" + minute.ToString("00") + ":" + second.ToString("00");
+    } 
+    
+    
+    // セーブ
+    public void SaveTimerFunction()
+    {
+        PlayerPrefs.SetString("lastTapTimeKey", lastTapTime.ToString());
+        PlayerPrefs.SetString("isActiveKey", isActive.ToString());
+}
+
+    // ロード
+    public void LoadTimerFunction()
+    {
+        string time = PlayerPrefs.GetString("lastTapTimeKey", "");
+        lastTapTime = DateTime.Parse(time);
+        string flag = PlayerPrefs.GetString("isActiveKey", "");
+        isActive = Convert.ToBoolean(flag);
+        if (isActive == true ) { timeButton.interactable = false; }
     }
+    
+    
 
     // オブジェクト取得
     void Awake()

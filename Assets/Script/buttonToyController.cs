@@ -10,23 +10,42 @@ public class buttonToyController : MonoBehaviour
     public Button buttonReturn;
     public GameObject wall;
 
+    RectTransform rectTransform;
+
     // Start is called before the first frame update
     void Start()
     {
         bool isActive = true;
+        bool invisivle = false;
+
+        rectTransform = toyPanel.GetComponent<RectTransform>();
+        
 
         buttonToy.onClick.AddListener(() =>
         {
             toyPanel.SetActive(isActive);
             wall.SetActive(isActive);
-            isActive = !isActive;
+            if (invisivle == false)
+            {
+                Vector2 pos = rectTransform.position;
+                pos.x = 0;
+                rectTransform.position = pos;
+                invisivle = true;
+            }
+            
+            //isActive = !isActive;
         });
 
         buttonReturn.onClick.AddListener(() =>
         {
-            toyPanel.SetActive(isActive);
-            wall.SetActive(isActive);
-            isActive = !isActive;
+            //toyPanel.SetActive(isActive);
+            //wall.SetActive(isActive);
+            Vector2 pos = rectTransform.position;
+            pos.x = -100;
+            rectTransform.position = pos;
+            //Debug.Log(pos.x);
+            invisivle = false;
+            //isActive = !isActive;
         });
     }
 

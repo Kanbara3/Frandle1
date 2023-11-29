@@ -27,7 +27,7 @@ public class FoodManager : MonoBehaviour
     void Start()
     {
         readJson();
-
+        
 
         foreach (var item in jsonData.foodInfos)
         {
@@ -39,11 +39,39 @@ public class FoodManager : MonoBehaviour
         }
 
         addFoodStock(0, 1);
+        LoadNumFoodFunction();
     }
 
+    void Update()
+    {
+        SaveNumFoodFunction();
+    }
+
+    // foodの個数を増やす Toy.csで使用
     public void addFoodStock(int foodId, int ct)
     {
         foodList[foodId].GetComponent<Food>().AddStock(ct);
+    }
+
+    // numFoodのセーブ
+    public void SaveNumFoodFunction()
+    {
+        for (int i = 0; i < jsonData.foodInfos.Length; i++)
+        {
+            int numFood = foodList[i].GetComponent<Food>().numFood;
+            PlayerPrefs.SetInt("saveNumFood_" + i, numFood);
+        }
+    }
+
+    // numFoodのロード
+    public void LoadNumFoodFunction()
+    {
+        for (int i = 0; i < jsonData.foodInfos.Length; i++)
+        {
+            int numFood = PlayerPrefs.GetInt("saveNumFood_" + i, 0);
+            foodList[i].GetComponent<Food>().numFood = numFood;
+            foodList[i].GetComponent<Food>().FoodTextUpdate();
+        }
     }
 
     void readJson()

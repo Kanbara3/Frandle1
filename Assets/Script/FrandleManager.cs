@@ -6,7 +6,7 @@ using TMPro;
 
 public class FrandleManager : MonoBehaviour
 {
-    public long tap=0;
+    public long tap=0; // 数字
     public GameObject harttext;
     public GameObject kankeitext;
     long oneTapIncrease = 1;
@@ -27,17 +27,23 @@ public class FrandleManager : MonoBehaviour
         
     }
 
-    // 好感度(tap)の更新
+    // 好感度(tap)の更新 旧システム
     public void changeOneTapIncreaseRate(long upRate)
     {
         oneTapIncrease += upRate;
+    }
+
+    // 好感度(経験値)の更新 新システム
+    public void upFavourableImpression(long upRate) 
+    {
+        tap += upRate;
     }
     
     // BackgroundとFrandleでEventTriggerにアタッチ
     public void HartDirector()
     {
         tap += oneTapIncrease;
-        this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
+        HeartTextUpdate();
     }
 
     // 好感度セーブ
@@ -49,6 +55,12 @@ public class FrandleManager : MonoBehaviour
     public void LoadTap()
     {
         tap = long.Parse(PlayerPrefs.GetString("saveTap", (000).ToString()));
+        HeartTextUpdate();
+    }
+
+    //harttextの更新
+    public void HeartTextUpdate()
+    {
         this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
     }
 

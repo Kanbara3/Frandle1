@@ -13,13 +13,25 @@ public class Food : MonoBehaviour
     // ごはんの個数のtext
     private TextMeshProUGUI foodText;
     // ごはんの個数のint
-    int numFood = 0;
+    public int numFood=0;
     // ごはんを与えるButton
     private Button foodButton;
     // ごはんを与えた時のtapした時の好感度増幅量
     public long tapFood = 1;
 
     private Image foodImage;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     // ボタンを押したときにマイナス1する
     public void GiveButton()
@@ -29,12 +41,14 @@ public class Food : MonoBehaviour
             if (numFood == 0) return;
             numFood -= 1;
             Debug.Log(tapFood);
-            frandleManager.changeOneTapIncreaseRate(tapFood);
-            foodText.text = "×" + " " + numFood.ToString();
+            //frandleManager.changeOneTapIncreaseRate(tapFood);
+            frandleManager.upFavourableImpression(tapFood);
+            FoodTextUpdate();
+            frandleManager.HeartTextUpdate();
         });
     }
 
-    
+    //Asset>Resources>FoodImageフォルダから画像を読み込み
     public void InitFood(string imagePath, long tapFood)
     {
         this.tapFood = tapFood;
@@ -47,6 +61,12 @@ public class Food : MonoBehaviour
     public void AddStock(int ct)
     {
         numFood += ct;
+        FoodTextUpdate();
+    }
+
+    // foodTextの更新
+    public void FoodTextUpdate()
+    {
         foodText.text = "×" + " " + numFood.ToString();
     }
 
@@ -60,9 +80,5 @@ public class Food : MonoBehaviour
         foodImage = this.transform.GetChild(0).GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
