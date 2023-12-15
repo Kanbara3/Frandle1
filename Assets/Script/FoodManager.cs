@@ -12,6 +12,9 @@ public class FoodInfo
 {
     public int id;
     public string like;
+    public int mealTime;
+    public int cuisineType;
+    public int price;
 }
 
 public class FoodManager : MonoBehaviour
@@ -20,6 +23,9 @@ public class FoodManager : MonoBehaviour
     public Canvas foodCanvas;
     public GameObject foodContent;
     private List<GameObject> foodList = new List<GameObject>();
+    private List<int> cuisineTypeList = new List<int>();
+    private List<int> mealTymeList = new List<int> ();
+    private List<bool> hasEatenList = new List<bool>();
 
     private JsonData jsonData;
 
@@ -28,18 +34,22 @@ public class FoodManager : MonoBehaviour
     {
         readJson();
         
-
+        // jsonから読み込み
         foreach (var item in jsonData.foodInfos)
         {
             //int p = i * 200;
-            GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
             newFood.transform.SetParent(foodContent.transform, false);
-            newFood.GetComponent<Food>().InitFood("1-"+(item.id), long.Parse(item.like));
-            foodList.Add(newFood);
+            newFood.GetComponent<Food>().InitFood("1-"+(item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
+            foodList.Add(newFood); //Prefabオブジェクトのリスト作成
+            cuisineTypeList.Add(item.mealTime);
+            mealTymeList.Add(item.mealTime);
+
         }
 
-        addFoodStock(0, 1);
+        //addFoodStock(0, 1);
         LoadNumFoodFunction();
+        RecordSelectedFood();
     }
 
     void Update()
@@ -50,8 +60,30 @@ public class FoodManager : MonoBehaviour
     // foodの個数を増やす Toy.csで使用
     public void addFoodStock(int foodId, int ct)
     {
-        foodList[foodId].GetComponent<Food>().AddStock(ct);
+        foodList[foodId-1].GetComponent<Food>().AddStock(ct);
     }
+
+    // どのfoodを押したか記録
+    public void RecordSelectedFood()
+    {
+        for (int i=0; i < foodList.Count; i++)
+        {
+            bool hasEaten = foodList[i].GetComponent<Food>().hasEaten;
+            hasEatenList.Add(hasEaten);
+        }
+    }
+
+    //
+    //public void CheckCuisineTypeList()
+    //{
+    //    for (int i=0; i<foodList.Count; i++)
+    //    {
+    //        for (int j=1; j<5; i++)
+    //        {
+    //            cuisineTypeList[j]
+    //        }
+    //    }
+    //}
 
     // numFoodのセーブ
     public void SaveNumFoodFunction()
@@ -72,6 +104,12 @@ public class FoodManager : MonoBehaviour
             foodList[i].GetComponent<Food>().numFood = numFood;
             foodList[i].GetComponent<Food>().FoodTextUpdate();
         }
+    }
+
+    public int GetFoodNum(int id)
+    {
+        id -= 1;
+        return foodList[id].GetComponent<Food>().numFood;
     }
 
     void readJson()

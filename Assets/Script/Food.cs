@@ -18,7 +18,7 @@ public class Food : MonoBehaviour
     private Button foodButton;
     // ごはんを与えた時のtapした時の好感度増幅量
     public long tapFood = 1;
-
+    // foodの画像
     private Image foodImage;
 
     // Start is called before the first frame update
@@ -43,6 +43,7 @@ public class Food : MonoBehaviour
             Debug.Log(tapFood);
             //frandleManager.changeOneTapIncreaseRate(tapFood);
             frandleManager.upFavourableImpression(tapFood);
+            FoodRecord();
             FoodTextUpdate();
             frandleManager.HeartTextUpdate();
         });
@@ -53,11 +54,9 @@ public class Food : MonoBehaviour
     {
         this.tapFood = tapFood;
         foodImage.sprite = Resources.Load<Sprite>("FoodImage/"+imagePath);
-            //GameObject.Find("test").transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
-            //Resources.Load<Sprite>("ImageFoodImage/1-2");
-        
     }
     
+    // 食べ物の数を増やす関数
     public void AddStock(int ct)
     {
         numFood += ct;
@@ -68,6 +67,19 @@ public class Food : MonoBehaviour
     public void FoodTextUpdate()
     {
         foodText.text = "×" + " " + numFood.ToString();
+    }
+
+    public bool hasEaten = false;
+
+    // 押したものの記録
+    public void FoodRecord()
+    {
+        hasEaten = true;
+    }
+    // haEatenをリセットする関数
+    public void ResetHasEaten()
+    {
+        hasEaten = false;
     }
 
     // Start is called before the first frame update
