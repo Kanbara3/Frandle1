@@ -10,9 +10,6 @@ public class FoodShop : MonoBehaviour
     public MoneyManager moneyManager;
     public FoodManager foodManager;
 
-    //public Button buyButton;
-    //public TextMeshProUGUI numFoodText;
-
     public GameObject foodShopContent;
     public GameObject foodShopPrefab;
     private JsonData foodJsonData;
@@ -39,26 +36,6 @@ public class FoodShop : MonoBehaviour
     {
         
     }
-
-    //private void test()
-    //{
-    //    int foodId = 0;
-    //    BuyFood(foodId);
-    //}
-
-    //public void NumFoodTextUpdate()
-    //{
-    //    numFoodText.text = "èäéùêîÅF" + foodManager.GetFoodNum(0).ToString();
-    //}
-
-    //public void BuyFood(int foodId)
-    //{
-    //    if (moneyManager.Pay(100))
-    //    {
-    //        foodManager.addFoodStock(foodId, 1);
-    //        NumFoodTextUpdate();
-    //    }
-    //}
 
     void readJson()
     {

@@ -7,6 +7,8 @@ using TMPro;
 public class Visitor : MonoBehaviour
 {
     private FrandleManager frandleManager;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI levelText;
 
     private Image visitorImage;
 
@@ -23,13 +25,17 @@ public class Visitor : MonoBehaviour
     }
 
     //Asset>Resources>CharacterImageƒtƒHƒ‹ƒ_‚©‚ç‰æ‘œ‚ğ“Ç‚İ‚İ
-    public void InitVisitor(string imagePath)
+    public void InitVisitor(string imagePath, string visitorName)
     {
         visitorImage.sprite = Resources.Load<Sprite>("VisitorImage/" + imagePath);
+        nameText.text = visitorName;
+
     }
 
     void Awake()
     {
         visitorImage = this.transform.GetChild(0).GetComponent<Image>();
+        nameText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        levelText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
     }
 }

@@ -42,6 +42,7 @@ public class FoodShopPrefab : MonoBehaviour
     private void BuyButtonAction()
     {
         BuyFood(foodId);
+        moneyManager.UpdateMoney();//お金の更新
     }
 
     //numFoodText更新

@@ -88,6 +88,12 @@ public class MoneyManager : MonoBehaviour
         }
     }
 
+    // お金の更新
+    public void UpdateMoney()
+    {
+        moneyText.text = money.ToString();
+    }
+
     //moneyのセーブ
     public void SaveMoneyFunction()
     {
