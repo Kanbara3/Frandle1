@@ -32,6 +32,7 @@ public class VisitorManager : MonoBehaviour
             GameObject newVisitor = Instantiate(visitorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             newVisitor.transform.SetParent(visitorContent.transform, false);
             newVisitor.GetComponent<Visitor>().InitVisitor(visitor.id.ToString(), visitor.name);
+            newVisitor.GetComponent<Visitor>().id = visitor.id;
         }
     }
 
@@ -46,6 +47,7 @@ public class VisitorManager : MonoBehaviour
     {
 
     }
+
 
     // jsonÇÃì«Ç›çûÇ›
     void readVisiterJson()

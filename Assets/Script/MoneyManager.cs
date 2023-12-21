@@ -106,6 +106,8 @@ public class MoneyManager : MonoBehaviour
         money = PlayerPrefs.GetInt("moneyData", 0);
     }
 
+    //FoodShopPrefab.cs‚©‚çŒÄ‚Ño‚µ
+    //x•¥‚¢ŠÖ”
     public bool Pay(int cost)
     {
         if (money < cost)

@@ -24,7 +24,7 @@ public class FoodManager : MonoBehaviour
     public GameObject foodContent;
     private List<GameObject> foodList = new List<GameObject>();
     private List<int> cuisineTypeList = new List<int>();
-    private List<int> mealTymeList = new List<int> ();
+    private List<int> mealTypeList = new List<int> ();
     private List<bool> hasEatenList = new List<bool>();
 
     private JsonData jsonData;
@@ -43,7 +43,7 @@ public class FoodManager : MonoBehaviour
             newFood.GetComponent<Food>().InitFood("1-"+(item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
             foodList.Add(newFood); //Prefabオブジェクトのリスト作成
             cuisineTypeList.Add(item.mealTime);
-            mealTymeList.Add(item.mealTime);
+            mealTypeList.Add(item.mealTime);
 
         }
 

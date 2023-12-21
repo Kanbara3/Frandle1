@@ -15,8 +15,8 @@ public class FoodShopPrefab : MonoBehaviour
     private TextMeshProUGUI numFoodText;
     private TextMeshProUGUI priceText;
 
-    public int foodId;
-    public int price;
+    public int foodId; //FoodShop‚Å‘ã“üÏ
+    public int price;  //FoodShop‚Å‘ã“üÏ
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +39,7 @@ public class FoodShopPrefab : MonoBehaviour
     //    Debug.Log("test");
     //}
 
+    //w“ü(monayManager–â‚¢‡‚í‚¹)
     private void BuyButtonAction()
     {
         BuyFood(foodId);
@@ -51,6 +52,7 @@ public class FoodShopPrefab : MonoBehaviour
         numFoodText.text = "Š”F" + foodManager.GetFoodNum(foodId).ToString();
     }
 
+    //w“ü‘OmonayManager–â‚¢‡‚í‚¹
     public void BuyFood(int foodId)
     {
         if (moneyManager.Pay(price))

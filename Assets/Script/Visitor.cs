@@ -7,8 +7,13 @@ using TMPro;
 public class Visitor : MonoBehaviour
 {
     private FrandleManager frandleManager;
+    private MoneyManager moneyManager;
+
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI levelText;
+
+    public int id;
+    public int level;
 
     private Image visitorImage;
 
@@ -24,6 +29,12 @@ public class Visitor : MonoBehaviour
         
     }
 
+    //levelテキストの更新
+    public void LevelTextUpdate()
+    {
+        levelText.text = "Lv." + level.ToString();
+    }
+
     //Asset>Resources>CharacterImageフォルダから画像を読み込み
     public void InitVisitor(string imagePath, string visitorName)
     {
@@ -34,8 +45,11 @@ public class Visitor : MonoBehaviour
 
     void Awake()
     {
+        frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
+
         visitorImage = this.transform.GetChild(0).GetComponent<Image>();
         nameText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        levelText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        levelText = this.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 }
