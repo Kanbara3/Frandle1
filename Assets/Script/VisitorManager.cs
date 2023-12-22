@@ -33,6 +33,7 @@ public class VisitorManager : MonoBehaviour
             newVisitor.transform.SetParent(visitorContent.transform, false);
             newVisitor.GetComponent<Visitor>().InitVisitor(visitor.id.ToString(), visitor.name);
             newVisitor.GetComponent<Visitor>().id = visitor.id;
+            newVisitor.GetComponent<Visitor>().name = visitor.name;
         }
     }
 

@@ -14,6 +14,7 @@ public class Visitor : MonoBehaviour
 
     public int id;
     public int level;
+    public string visitorName;
 
     private Image visitorImage;
 
@@ -38,8 +39,8 @@ public class Visitor : MonoBehaviour
     //Asset>Resources>CharacterImageƒtƒHƒ‹ƒ_‚©‚ç‰æ‘œ‚ğ“Ç‚İ‚İ
     public void InitVisitor(string imagePath, string visitorName)
     {
-        visitorImage.sprite = Resources.Load<Sprite>("VisitorImage/" + imagePath);
-        nameText.text = visitorName;
+        visitorImage.sprite = Resources.Load<Sprite>("VisitorImage/" + (level == 0 ? "0" : imagePath));
+        nameText.text = (level == 0 ? "?" : visitorName);
 
     }
 

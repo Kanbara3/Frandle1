@@ -9,13 +9,11 @@ public class GachaManager : MonoBehaviour
 {
     public VisitorManager visitorManager;
     public MoneyManager moneyManager;
-    private GameObject visitorContent;
     public Button turnButton;
 
     // Start is called before the first frame update
     void Start()
     {
-        visitorContent = visitorManager.visitorContent;
         GachaButtonPush();
     }
 
@@ -30,17 +28,15 @@ public class GachaManager : MonoBehaviour
     {
         buyGachaTicket();
 
-        Visitor[] visitors = visitorContent.GetComponentsInChildren<Visitor>();
+        Visitor[] visitors = visitorManager.visitorContent.GetComponentsInChildren<Visitor>();
         int randomNumber = UnityEngine.Random.Range(1, visitors.Length+1);
 
         foreach (Visitor visitor in visitors)
         {
-            if (visitor.id == randomNumber) // idが1のVisitorを見つけたら
+            if (visitor.id == randomNumber)
             {
-                // ここでLevelを更新する処理を実装する
-                visitor.level++; // 例として、Levelを1増やす
-
-                // Levelを更新した後、Visitor.csのInitVisitorメソッドを呼び出して更新を反映する
+                visitor.level++;
+                visitor.InitVisitor(visitor.id.ToString(), visitor.name);
                 visitor.LevelTextUpdate();
                 break;
             }
