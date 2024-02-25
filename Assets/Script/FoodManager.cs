@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class JsonData
@@ -22,10 +24,15 @@ public class FoodManager : MonoBehaviour
     public GameObject foodPrefab;
     public Canvas foodCanvas;
     public GameObject foodContent;
-    private List<GameObject> foodList = new List<GameObject>();
+    public GameObject foodShop;
+    private bool foodShopActive;
+    public List<GameObject> foodList = new List<GameObject>();
     private List<int> cuisineTypeList = new List<int>();
     private List<int> mealTypeList = new List<int> ();
     private List<bool> hasEatenList = new List<bool>();
+    public int sumFoodNum = 0; //総所持数
+    public int limitFoodNum　= 10; //個数上限
+    public GameObject stockText;
 
     private JsonData jsonData;
 
@@ -47,7 +54,6 @@ public class FoodManager : MonoBehaviour
 
         }
 
-        //addFoodStock(0, 1);
         LoadNumFoodFunction();
         RecordSelectedFood();
     }
@@ -57,10 +63,14 @@ public class FoodManager : MonoBehaviour
         SaveNumFoodFunction();
     }
 
-    // foodの個数を増やす Toy.csで使用
+    // foodの個数を増やす
     public void addFoodStock(int foodId, int ct)
     {
-        foodList[foodId-1].GetComponent<Food>().AddStock(ct);
+        if (limitFoodNum >= sumFoodNum)
+        {
+            foodList[foodId - 1].GetComponent<Food>().AddStock(ct);
+            sumFoodNum += ct;
+        }
     }
 
     // どのfoodを押したか記録
@@ -73,17 +83,16 @@ public class FoodManager : MonoBehaviour
         }
     }
 
-    //
-    //public void CheckCuisineTypeList()
-    //{
-    //    for (int i=0; i<foodList.Count; i++)
-    //    {
-    //        for (int j=1; j<5; i++)
-    //        {
-    //            cuisineTypeList[j]
-    //        }
-    //    }
-    //}
+    //ご飯の合計数をshopを開いた時に計算
+    public void CaluculateFoodStockSum()
+    {
+        sumFoodNum = 0;
+        foreach (GameObject food in foodList)
+        {
+            sumFoodNum += food.GetComponent<Food>().numFood;
+        }
+        stockText.GetComponent<TextMeshProUGUI>().text = sumFoodNum.ToString() + "/" + limitFoodNum.ToString();
+    }
 
     // numFoodのセーブ
     public void SaveNumFoodFunction()

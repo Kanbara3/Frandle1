@@ -10,100 +10,80 @@ public class MoneyManager : MonoBehaviour
     public TextMeshProUGUI moneyText;
     public int money = 0;
     public int moneyIncrease = 1;　//1秒で増えるmoney
-    public float span = 1f;
-    private float currentTime = 0f;
-    private DateTime stoppedTime;
-    private TimeSpan elapsedTime; //停止中に経過した時間
+    public float moneyIncreaseBoost = 1;
+    private float increaseMoneySpan = 1f;
+    private float currentTimer; //1秒を測る変数
+    private int MoneyIncreaseLimit = 5; //閉じている間に増えるお金の上限
+    private int timeIncreaseMoney;
+    private int lastAddMoneyTime;
 
     public Button buyButton;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //buyFood();
-        LoadMoneyFunction();
-        LoadStoppedTimeFunction();
+        LoadData();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        IncreaseMoney();
+        SaveData();
+    }
+
+    // increaseMoneySpan秒ごとにmoneyをtimeIncreaseMoney円増やす
+    private void IncreaseMoneyOverTime()
+    {
+        currentTimer += Time.deltaTime;
+
+        if (currentTimer >= increaseMoneySpan)
+        {
+            money += timeIncreaseMoney;
+            lastAddMoneyTime = (int)(DateTime.UtcNow.Subtract(new DateTime(1979, 1, 1))).TotalSeconds; //最期に金が増えた時間
+            timeIncreaseMoney = 0;
+            UpdateUI();
+            currentTimer = 0f;
+        }
+    }
+    // 閉じている間のmoneyを増やす関数
+    private void IncreaseMoney()
+    {
+        int currentTime;
+        currentTime = (int)(DateTime.UtcNow.Subtract(new DateTime(1979, 1, 1))).TotalSeconds;
+        timeIncreaseMoney = (int)((currentTime - lastAddMoneyTime) * moneyIncrease　* moneyIncreaseBoost);
+        timeIncreaseMoney = Mathf.Min(timeIncreaseMoney, MoneyIncreaseLimit); // timeIncreaseMoneyがMoneyIncreaseLimitを超えないように制限する
         IncreaseMoneyOverTime();
-        SaveMoneyFunction();
-        SaveStoppedTimeFunction();
     }
 
-    //ゲーム終了時に時刻を取得
-    void OnApplicationQuit()
+    // 放置中に稼げるお金の上限を増やす
+    public void MoneyIncreaseLimitBoost(int upRate)
     {
-        stoppedTime = DateTime.UtcNow;
+        MoneyIncreaseLimit += upRate;
     }
-
-    // ゲーム一時停止時に時刻を取得,ゲーム一時停止復帰に関数実行
-    void OnApplicationPause(bool pauseStatus)
+    // 1秒ごとに増えるお金を増加
+    public void MoneyIncreaseBoost(int upRate)
     {
-        if(pauseStatus)
-        {
-            stoppedTime = DateTime.UtcNow;
-        }
-        else
-        {
-            LoadMoneyFunction();
-            //LoadStoppedTimeFunction();
-        }
+        moneyIncrease += upRate;
     }
 
-    // stoppedTimeのセーブ
-    public void SaveStoppedTimeFunction()
-    {
-        PlayerPrefs.SetString("stoppedTimeKey", stoppedTime.ToString());
-    }
-
-    // stoppedTimeのロード
-    public void LoadStoppedTimeFunction()
-    {
-        string strStoppTime = PlayerPrefs.GetString("stoppedTimeKey", "");
-        stoppedTime = DateTime.Parse(strStoppTime);
-        elapsedTime = DateTime.UtcNow - stoppedTime;
-        IncreaseMoneyForPauseOrStopTimeElapsed();
-        elapsedTime = TimeSpan.FromSeconds(0);
-    }
-
-    // 停止中に経過した時間分moneyを増加
-    public void IncreaseMoneyForPauseOrStopTimeElapsed()
-    {
-        money += moneyIncrease * (int)elapsedTime.TotalSeconds;
-    }
-
-    //1秒ごとにmoneyが増える
-    public void IncreaseMoneyOverTime()
-    {
-        currentTime += Time.deltaTime;
-
-        if(currentTime >= span)
-        {
-            money += moneyIncrease;
-            moneyText.text = money.ToString();
-            currentTime = 0f;
-        }
-    }
 
     // お金の更新
-    public void UpdateMoney()
+    private void UpdateUI()
     {
         moneyText.text = money.ToString();
     }
 
     //moneyのセーブ
-    public void SaveMoneyFunction()
+    public void SaveData()
     {
         PlayerPrefs.SetInt("moneyData", money);
+        PlayerPrefs.SetInt("lastAddMoneyTime", lastAddMoneyTime);
     }
 
     //moneyのロード
-    public void LoadMoneyFunction()
+    public void LoadData()
     {
         money = PlayerPrefs.GetInt("moneyData", 0);
+        lastAddMoneyTime = PlayerPrefs.GetInt("lastAddMoneyTime", 0);
     }
 
     //FoodShopPrefab.csから呼び出し
@@ -115,6 +95,7 @@ public class MoneyManager : MonoBehaviour
             return false;
         }
         money -= cost;
+        UpdateUI();
         return true;
     }
 }

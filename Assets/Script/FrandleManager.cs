@@ -1,30 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class FrandleManager : MonoBehaviour
 {
     public long tap=0; // 数字
     public GameObject harttext;
     public GameObject kankeitext;
-    long oneTapIncrease = 1;
+    public long oneTapIncrease = 1;
+    private int satiety; //満腹度
+    private FrandleLevelManager levelManager;
+    public long sliderXP;
 
     // Start is called before the first frame update
     void Start()
     {
+        levelManager = GameObject.Find("FrandleLevelManager").GetComponent<FrandleLevelManager>();
+        sliderXP = tap;
         //tap = 0;
         //GiveButton();
-        LoadTap();
+        //LoadTap();
     }
 
     // Update is called once per frame
     void Update()
     {
-        KankeiDirector();
+        //levelManager.FrandleLevelUp(tap);
+        //KankeiDirector();
         SaveTap();
         
+    }
+
+    //満腹度
+    public void SatietyIncreaseRate(int upSatiety)
+    {
+        satiety += upSatiety;
     }
 
     // 好感度(tap)の更新 旧システム
@@ -38,12 +48,26 @@ public class FrandleManager : MonoBehaviour
     {
         tap += upRate;
     }
-    
+
+    // oneTapIncreaseの更新
+    public void UpdateOneTapIncrease(long upRate)
+    {
+        oneTapIncrease += upRate;
+    }
+
     // BackgroundとFrandleでEventTriggerにアタッチ
     public void HartDirector()
     {
         tap += oneTapIncrease;
+        sliderXP += oneTapIncrease;
+        levelManager.FrandleLevelUp(tap);
         HeartTextUpdate();
+    }
+
+    // スライダーの更新
+    public void UpdateSliderValue()
+    {
+        levelManager.FrandleLevelUp(tap);
     }
 
     // 好感度セーブ
@@ -63,7 +87,6 @@ public class FrandleManager : MonoBehaviour
     {
         this.harttext.GetComponent<TextMeshProUGUI>().text = tap.ToString("F0");
     }
-
     
     // 好感度によって関係テキストが変化する
     public void KankeiDirector()
@@ -157,67 +180,4 @@ public class FrandleManager : MonoBehaviour
             this.kankeitext.GetComponent<TextMeshProUGUI>().text = "ずーっと私のおもちゃね！";
         }
     }
-
-    /*
-    // ごはんの数制御
-    // ごはんの個数のtext
-    public TextMeshProUGUI text_food1_1;
-    public TextMeshProUGUI text_food1_2;
-    public TextMeshProUGUI text_food1_3;
-    public TextMeshProUGUI text_food1_4;
-    // ごはんの個数のint
-    int num_food1_1 = 10;
-    int num_food1_2 = 10;
-    int num_food1_3 = 10;
-    int num_food1_4 = 10;
-    // ごはんを与えるButton
-    public Button button_food1_1;
-    public Button button_food1_2;
-    public Button button_food1_3;
-    public Button button_food1_4;
-    // ごはんを与えた時のtapした時の好感度増幅量
-    private int tap_food1_1 = 1;
-    private int tap_food1_2 = 2;
-    private int tap_food1_3 = 3;
-    private int tap_food1_4 = 4;
-    public void GiveButton()
-    {
-        button_food1_1.onClick.AddListener(() =>
-        {
-            if (num_food1_1 > 0)
-            {
-                num_food1_1 -= 1;
-                one_tap += tap_food1_1;
-                text_food1_1.text = "×" + " " + num_food1_1.ToString();
-            }
-        });
-        button_food1_2.onClick.AddListener(() =>
-        {
-            if (num_food1_2 > 0)
-            {
-                num_food1_2 -= 1;
-                one_tap += tap_food1_2;
-                text_food1_2.text = "×" + " " + num_food1_2.ToString();
-            }
-        });
-        button_food1_3.onClick.AddListener(() =>
-        {
-            if (num_food1_3 > 0)
-            {
-                num_food1_3 -= 1;
-                one_tap += tap_food1_3;
-                text_food1_3.text = "×" + " " + num_food1_3.ToString();
-            }
-        });
-        button_food1_4.onClick.AddListener(() =>
-        {
-            if (num_food1_4 > 0)
-            {
-                num_food1_4 -= 1;
-                one_tap += tap_food1_4;
-                text_food1_4.text = "×" + " " + num_food1_4.ToString();
-            }
-        });
-    }
-    */
 }

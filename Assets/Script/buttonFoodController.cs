@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class buttonFoodController : MonoBehaviour
     public Button buttonFood;
     public Button buttonReturn;
     public GameObject wall;
+
+    private FoodManager foodManager;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class buttonFoodController : MonoBehaviour
             foodPanel.SetActive(isActive);
             wall.SetActive(isActive);
             isActive = !isActive;
+            foodManager.CaluculateFoodStockSum();
         });
 
         buttonReturn.onClick.AddListener(() =>
@@ -28,5 +32,10 @@ public class buttonFoodController : MonoBehaviour
             wall.SetActive(isActive);
             isActive = !isActive;
         });
+    }
+
+    void Awake()
+    {
+        foodManager = GameObject.Find("FoodManager").GetComponent<FoodManager>();
     }
 }

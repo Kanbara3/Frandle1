@@ -7,6 +7,8 @@ using TMPro;
 public class Food : MonoBehaviour
 {
     private FrandleManager frandleManager;
+    private FoodManager foodManager;
+    private FoodShop foodShop;
 
     // ごはんの数制御
     private string foodName;
@@ -14,12 +16,17 @@ public class Food : MonoBehaviour
     private TextMeshProUGUI foodText;
     // ごはんの個数のint
     public int numFood=0;
+    // ご飯の数の抑制
+    //public int limitFoodNum = 5;
     // ごはんを与えるButton
     private Button foodButton;
     // ごはんを与えた時のtapした時の好感度増幅量
     public long tapFood = 1;
     // foodの画像
     private Image foodImage;
+    
+    // 満腹度上昇値
+    private int satietyIncreaseRate = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -40,11 +47,12 @@ public class Food : MonoBehaviour
         {
             if (numFood == 0) return;
             numFood -= 1;
-            Debug.Log(tapFood);
             //frandleManager.changeOneTapIncreaseRate(tapFood);
             frandleManager.upFavourableImpression(tapFood);
+            frandleManager.SatietyIncreaseRate(satietyIncreaseRate); //満腹度を増加
             FoodRecord();
             FoodTextUpdate();
+            foodManager.CaluculateFoodStockSum();
             frandleManager.HeartTextUpdate();
         });
     }
@@ -59,8 +67,11 @@ public class Food : MonoBehaviour
     // 食べ物の数を増やす関数
     public void AddStock(int ct)
     {
-        numFood += ct;
-        FoodTextUpdate();
+        if (foodManager.sumFoodNum < foodManager.limitFoodNum) //limitFoodNumより少なかったら増やす
+        {
+            numFood += ct;
+            FoodTextUpdate();
+        }
     }
 
     // foodTextの更新
@@ -86,6 +97,8 @@ public class Food : MonoBehaviour
     void Awake()
     {
         frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        foodManager = GameObject.Find("FoodManager").GetComponent<FoodManager>();
+        foodShop = GameObject.Find("FoodShop").GetComponent<FoodShop>();
         foodButton = this.transform.GetChild(0).GetComponent<Button>();
         foodText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         GiveButton();

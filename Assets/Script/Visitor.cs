@@ -40,8 +40,7 @@ public class Visitor : MonoBehaviour
     public void InitVisitor(string imagePath, string visitorName)
     {
         visitorImage.sprite = Resources.Load<Sprite>("VisitorImage/" + (level == 0 ? "0" : imagePath));
-        nameText.text = (level == 0 ? "?" : visitorName);
-
+        nameText.text = (level == 0 ? "?" : visitorName); //level‚ª0‚Ì‚Æ‚«name‚ð"?"‚É‚·‚é
     }
 
     void Awake()

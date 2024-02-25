@@ -17,6 +17,7 @@ public class FoodShopPrefab : MonoBehaviour
 
     public int foodId; //FoodShopで代入済
     public int price;  //FoodShopで代入済
+    public int mealTime; //FoodShop.csで代入済み
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,6 @@ public class FoodShopPrefab : MonoBehaviour
     private void BuyButtonAction()
     {
         BuyFood(foodId);
-        moneyManager.UpdateMoney();//お金の更新
     }
 
     //numFoodText更新
@@ -55,13 +55,22 @@ public class FoodShopPrefab : MonoBehaviour
     //購入前monayManager問い合わせ
     public void BuyFood(int foodId)
     {
-        if (moneyManager.Pay(price))
+        int sumFoodNum = foodManager.GetComponent<FoodManager>().sumFoodNum;
+        int limitFoodNum = foodManager.GetComponent<FoodManager>().limitFoodNum;
+
+        //int limitFoodNum = foodManager.GetComponent<FoodManager>().foodList[foodId - 1].GetComponent<Food>().limitFoodNum;
+        //int numFood = foodManager.GetComponent<FoodManager>().foodList[foodId - 1].GetComponent<Food>().numFood;
+        if (sumFoodNum < limitFoodNum)
         {
-            foodManager.addFoodStock(foodId, 1);
-            NumFoodTextUpdate();
-            Debug.Log(price);
+            if (moneyManager.Pay(price))
+            {
+                foodManager.addFoodStock(foodId, 1);
+                NumFoodTextUpdate();
+            }
         }
     }
+
+
 
     //Asset>Resources>FoodImageフォルダから画像を読み込み
     public void LoadFoodImage(string imagePath)
