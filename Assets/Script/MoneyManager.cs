@@ -57,7 +57,7 @@ public class MoneyManager : MonoBehaviour
     // •ú’u’†‚É‰Ò‚°‚é‚¨‹à‚ÌãŒÀ‚ğ‘‚â‚·
     public void MoneyIncreaseLimitBoost(int upRate)
     {
-        MoneyIncreaseLimit += upRate;
+        MoneyIncreaseLimit = upRate;
     }
     // 1•b‚²‚Æ‚É‘‚¦‚é‚¨‹à‚ğ‘‰Á
     public void MoneyIncreaseBoost(int upRate)

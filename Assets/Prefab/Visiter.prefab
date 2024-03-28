@@ -54,6 +54,7 @@ MonoBehaviour:
   levelText: {fileID: 0}
   id: 0
   level: 0
+  visitorName: 
 --- !u!1 &2990205280415627257
 GameObject:
   m_ObjectHideFlags: 0

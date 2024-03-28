@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.VisualScripting.Antlr3.Runtime.Tree.TreeWizard;
 
 [System.Serializable]
 public class JsonData
@@ -21,6 +22,7 @@ public class FoodInfo
 
 public class FoodManager : MonoBehaviour
 {
+    private FrandleManager frandleManager;
     public GameObject foodPrefab;
     public Canvas foodCanvas;
     public GameObject foodContent;
@@ -28,11 +30,13 @@ public class FoodManager : MonoBehaviour
     private bool foodShopActive;
     public List<GameObject> foodList = new List<GameObject>();
     private List<int> cuisineTypeList = new List<int>();
-    private List<int> mealTypeList = new List<int> ();
+    private List<int> mealTypeList = new List<int>();
     private List<bool> hasEatenList = new List<bool>();
     public int sumFoodNum = 0; //総所持数
-    public int limitFoodNum　= 10; //個数上限
+    public int limitFoodNum = 10; //個数上限
     public GameObject stockText;
+    public GameObject satietyText;
+    public Image desiredFoodImage;
 
     private JsonData jsonData;
 
@@ -40,14 +44,14 @@ public class FoodManager : MonoBehaviour
     void Start()
     {
         readJson();
-        
+
         // jsonから読み込み
         foreach (var item in jsonData.foodInfos)
         {
             //int p = i * 200;
             GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
             newFood.transform.SetParent(foodContent.transform, false);
-            newFood.GetComponent<Food>().InitFood("1-"+(item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
+            newFood.GetComponent<Food>().InitFood("1-" + (item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
             foodList.Add(newFood); //Prefabオブジェクトのリスト作成
             cuisineTypeList.Add(item.mealTime);
             mealTypeList.Add(item.mealTime);
@@ -56,11 +60,13 @@ public class FoodManager : MonoBehaviour
 
         LoadNumFoodFunction();
         RecordSelectedFood();
+        DesiredFood();
     }
 
     void Update()
     {
         SaveNumFoodFunction();
+        satietyText.GetComponent<TextMeshProUGUI>().text = "満腹度：" + frandleManager.satiety.ToString() + "/" + frandleManager.MAX_SATIETY.ToString();
     }
 
     // foodの個数を増やす
@@ -76,7 +82,7 @@ public class FoodManager : MonoBehaviour
     // どのfoodを押したか記録
     public void RecordSelectedFood()
     {
-        for (int i=0; i < foodList.Count; i++)
+        for (int i = 0; i < foodList.Count; i++)
         {
             bool hasEaten = foodList[i].GetComponent<Food>().hasEaten;
             hasEatenList.Add(hasEaten);
@@ -92,6 +98,28 @@ public class FoodManager : MonoBehaviour
             sumFoodNum += food.GetComponent<Food>().numFood;
         }
         stockText.GetComponent<TextMeshProUGUI>().text = sumFoodNum.ToString() + "/" + limitFoodNum.ToString();
+    }
+
+    // 欲しがってるご飯を表示
+    private void DesiredFood()
+    {
+        int randomNumber = UnityEngine.Random.Range(1, foodList.Count + 1);
+        desiredFoodImage.sprite = Resources.Load<Sprite>("FoodImage/" + "1-" + randomNumber);
+    }
+
+    // 訪問者の恩恵でごはんを与えた時の好感度増幅量(increaseXPRate)を上昇させる
+    public void IncreaseXPRateIncrease(long upRate)
+    {
+        for (int i = 0; i < foodList.Count; i++)
+        {
+            foodList[i].GetComponent<Food>().increaseXPRate = upRate;
+        }
+    }
+
+    // 訪問者の恩恵で冷蔵庫の拡張
+    public void ExpandFoodLimit(int upRate)
+    {
+        limitFoodNum = upRate;
     }
 
     // numFoodのセーブ
@@ -128,5 +156,10 @@ public class FoodManager : MonoBehaviour
 
         // jsonDataの初期化
         jsonData = JsonUtility.FromJson<JsonData>(json);
+    }
+
+    void Awake()
+    {
+        frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
     }
 }

@@ -48,10 +48,11 @@ public class Toy : MonoBehaviour
         if (!isActive) { return; }
 
         currentTime = timeToPlay - (int)elapsedTime.TotalSeconds;
-        //Debug.Log(elapsedTime.TotalSeconds);
+        Debug.Log(currentTime);
         if (currentTime > 0)
         {
             elapsedTime = DateTime.UtcNow - lastTapTime;
+            //Debug.Log("経過時間：" + elapsedTime.TotalSeconds.ToString());
             IncreaseHeartsAutomatically();
         }
         else
@@ -88,8 +89,8 @@ public class Toy : MonoBehaviour
         timer += Time.deltaTime;
         if(timer >= interval)
         {
-            if (this.name == "Ehon") { frandleManager.tap += HeartIncreaseAmount; }
-            if (this.name == "Doll") { frandleManager.tap += (long)(HeartIncreaseAmount*1.2); }
+            if (this.name == "Ehon") { frandleManager.GainXP(HeartIncreaseAmount); }
+            if (this.name == "Doll") { frandleManager.GainXP((long)(HeartIncreaseAmount * 1.2)); }
             frandleManager.HeartTextUpdate();
             frandleManager.UpdateSliderValue();
             timer = 0f;
@@ -110,6 +111,7 @@ public class Toy : MonoBehaviour
         if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= 1.5f; }
     }
 
+    
 
     // セーブ
     public void SaveTimerFunction()

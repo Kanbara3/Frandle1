@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class ToyManager : MonoBehaviour
+{
+    public GameObject toyContent;
+    public List<GameObject> toyList = new List<GameObject>();
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    // ñKñ‚é“ÇÃâ∂åbÇ≈óVÇ‘éûä‘ÇíZèk
+    public void TimeToPlayDecrease(int downRate)
+    {
+        for (int i = 0; i < toyList.Count; i++)
+        {
+            toyList[i].GetComponent<Toy>().timeToPlay -= downRate;
+        }
+            //Debug.Log(toyList.Count);
+    }
+
+    void Awake()
+    {
+        for (int i = 0; i < toyContent.transform.childCount; i++)
+        {
+            toyList.Add(toyContent.transform.GetChild(i).gameObject);
+        }
+    }
+}

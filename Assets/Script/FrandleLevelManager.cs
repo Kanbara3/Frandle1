@@ -7,42 +7,62 @@ public class FrandleLevelManager : MonoBehaviour
     private FrandleManager frandleManager;
 
     public GameObject frandleLevelText;
-    private int currentLevel = 1;
+    public int currentLevel = 1;
     bool fullLevelFlag = false;
     //long[] xpRange = {50, 125, 225, 375, 575, 825, 1125, 1525, 2025, 2725, 3625, 4725, 6025, 7525, 9225, 11125, 13225, 15525, 18025 };
-    long[] xpRange = { 10, 20, 30, 40, 50 };
+    long[] xpRange = { 5, 10, 20, 25, 30, 40, 50 };
     public Slider slider;
-    //private long sliderXP;
 
     //レベル管理
     public void FrandleLevelUp(long currentXP)
     {
-        //sliderXP = frandleManager.sliderXP;
         if (fullLevelFlag) { return; }
+        CalculateLevel(currentXP);
+        SliderUpdate(currentXP);
+        frandleLevelText.GetComponent<TextMeshProUGUI>().text = "Lv." + currentLevel.ToString();
+    }
+
+    // レベルの計算
+    void CalculateLevel(long currentXP)
+    {
         while (true)
         {
             if (currentXP < xpRange[currentLevel - 1])//現在の経験値が必要経験値より小さければbrake
             {
-                if(currentLevel <= 1)slider.value = (float)frandleManager.sliderXP / (float)xpRange[currentLevel -1];
-                else slider.value = (float)frandleManager.sliderXP / ((float)xpRange[currentLevel - 1] - (float)xpRange[currentLevel - 2]);
                 break;
             }
-
-            if (currentLevel >= xpRange.Length + 1) frandleManager.sliderXP = xpRange[currentLevel - 1];
-            else if (currentLevel == 1) frandleManager.sliderXP -= xpRange[currentLevel - 1];
-            else frandleManager.sliderXP -= xpRange[currentLevel - 1] - xpRange[currentLevel - 2];
             currentLevel++;　//そうでなければレベル+1
             slider.value = 0f;
-            
+
             if (currentLevel >= xpRange.Length + 1) // 現在のレベルが設定されているレベル上限より大きければfullLevelFlagを立てる
             {
                 fullLevelFlag = true;
-                slider.value = 1;
                 break;
             }
         }
-        frandleLevelText.GetComponent<TextMeshProUGUI>().text = "Lv." + currentLevel.ToString();
     }
+
+    // 好感度スライダーのアップデート
+    void SliderUpdate(long currentXP)
+    {
+        if (fullLevelFlag)
+        {
+            slider.value = 1f;
+            return;
+        }
+        float bunbo = 0;
+        float bunshi = 0;
+        if (currentLevel <= 1) slider.value = (float)currentXP / (float)xpRange[currentLevel - 1];
+        else
+        {
+            bunbo = ((float)xpRange[currentLevel - 1] - (float)xpRange[currentLevel - 2]);
+            bunshi = (float)currentXP - (float)xpRange[currentLevel - 2];
+            slider.value = bunshi / bunbo;
+            //Debug.Log(bunshi + " " + bunbo);
+        }
+    }
+
+
 
     private void Awake()
     {

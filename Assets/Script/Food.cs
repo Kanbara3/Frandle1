@@ -15,29 +15,29 @@ public class Food : MonoBehaviour
     // ごはんの個数のtext
     private TextMeshProUGUI foodText;
     // ごはんの個数のint
-    public int numFood=0;
+    public int numFood = 0;
     // ご飯の数の抑制
     //public int limitFoodNum = 5;
     // ごはんを与えるButton
     private Button foodButton;
-    // ごはんを与えた時のtapした時の好感度増幅量
-    public long tapFood = 1;
+    // ごはんを与えた時の好感度増幅量
+    public long increaseXPRate = 1;
     // foodの画像
     private Image foodImage;
-    
+
     // 満腹度上昇値
     private int satietyIncreaseRate = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // ボタンを押したときにマイナス1する
@@ -45,25 +45,24 @@ public class Food : MonoBehaviour
     {
         foodButton.onClick.AddListener(() =>
         {
+            if (frandleManager.CapableToEat(satietyIncreaseRate)==false) return;
             if (numFood == 0) return;
             numFood -= 1;
-            //frandleManager.changeOneTapIncreaseRate(tapFood);
-            frandleManager.upFavourableImpression(tapFood);
-            frandleManager.SatietyIncreaseRate(satietyIncreaseRate); //満腹度を増加
+            frandleManager.EatFood(increaseXPRate, satietyIncreaseRate);
             FoodRecord();
             FoodTextUpdate();
             foodManager.CaluculateFoodStockSum();
-            frandleManager.HeartTextUpdate();
+
         });
     }
 
     //Asset>Resources>FoodImageフォルダから画像を読み込み
     public void InitFood(string imagePath, long tapFood)
     {
-        this.tapFood = tapFood;
-        foodImage.sprite = Resources.Load<Sprite>("FoodImage/"+imagePath);
+        this.increaseXPRate = tapFood;
+        foodImage.sprite = Resources.Load<Sprite>("FoodImage/" + imagePath);
     }
-    
+
     // 食べ物の数を増やす関数
     public void AddStock(int ct)
     {
@@ -105,5 +104,5 @@ public class Food : MonoBehaviour
         foodImage = this.transform.GetChild(0).GetComponent<Image>();
     }
 
-    
+
 }

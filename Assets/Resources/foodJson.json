@@ -2,7 +2,7 @@
     "foodInfos": [
         {
             "id": 1,
-            "like": 100,
+            "like":3,
             "mealTime": 1,
             "cuisineType": 1,
             "price": 10

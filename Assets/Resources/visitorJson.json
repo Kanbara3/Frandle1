@@ -2,43 +2,63 @@
   "visitorInfos": [
     {
         "id": 1,
-        "name": "霊夢"
+        "name": "霊夢",
+        "enName": "Reimu",
+        "effect":  "タップで上がる好感度が増加する"
     },
     {
         "id": 2,
-        "name": "魔理沙"
+        "name": "魔理沙",
+        "enName": "Marisa",
+        "effect":  "勤務時間外に溜まる賃金の上限増加"
     },
     {
         "id": 3,
-        "name": "ルーミア"
+        "name": "ルーミア",
+        "enName": "Rumia",
+        "effect": "食事の効果をブースト"
     },
     {
         "id": 4,
-        "name": "大妖精"
+        "name": "大妖精",
+        "enName": "Daiyousei",
+        "effect": "胃袋の上限増加"
     },
     {
         "id": 5,
-        "name": "チルノ"
+        "name": "チルノ",
+        "enName": "Cirno",
+        "effect": "おもちゃで遊ぶ時間を短縮"
     },
     {
         "id": 6,
-        "name": "美鈴"
+        "name": "美鈴",
+        "enName": "Meirin",
+        "effect": "ご飯の消化を促進"
     },
     {
         "id": 7,
-        "name": "小悪魔"
+        "name": "小悪魔",
+        "enName": "Koakuma",
+        "effect": "冷蔵庫拡張"
     },
     {
         "id": 8,
-        "name": "パチュリー"
+        "name": "パチュリー",
+        "enName": "Patchouli",
+        "effect": "訪問者チケット値下げ"
     },
     {
         "id": 9,
-        "name": "咲夜"
+        "name": "咲夜",
+        "enName": "Sakuya",
+        "effect": "食事の値下げ"
     },
     {
         "id": 10,
-        "name": "レミリア"
+        "name": "レミリア",
+        "enName": "Remilia",
+        "effect": "1秒ごとに貰える賃金の値上げ"
     }
   ]
 }
