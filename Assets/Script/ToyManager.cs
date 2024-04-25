@@ -21,13 +21,23 @@ public class ToyManager : MonoBehaviour
     }
 
     // –K–âÒ‚Ì‰¶Œb‚Å—V‚ÔŠÔ‚ğ’Zk
-    public void TimeToPlayDecrease(int downRate)
+    //public void TimeToPlayDecrease(int downRate)
+    //{
+    //    for (int i = 0; i < toyList.Count; i++)
+    //    {
+    //        toyList[i].GetComponent<Toy>().timeToPlay -= downRate;
+    //    }
+    //        //Debug.Log(toyList.Count);
+    //}
+
+    // ‚¨‚à‚¿‚á‚Ì‰¶Œb‚ğã‚°‚é
+    public void RaiseTheBenefitOfToy(int upRate)
     {
         for (int i = 0; i < toyList.Count; i++)
         {
-            toyList[i].GetComponent<Toy>().timeToPlay -= downRate;
+            toyList[i].GetComponent<Toy>().HeartIncreaseAmount += upRate;
+            toyList[i].GetComponent<Toy>().MoneyIncreaseAmount += upRate;
         }
-            //Debug.Log(toyList.Count);
     }
 
     void Awake()

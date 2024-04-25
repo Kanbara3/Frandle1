@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class FrandleLevelManager : MonoBehaviour
 {
-    private FrandleManager frandleManager;
+    private VisitorManager visitorManager;
 
     public GameObject frandleLevelText;
     public int currentLevel = 1;
     bool fullLevelFlag = false;
     //long[] xpRange = {50, 125, 225, 375, 575, 825, 1125, 1525, 2025, 2725, 3625, 4725, 6025, 7525, 9225, 11125, 13225, 15525, 18025 };
-    long[] xpRange = { 5, 10, 20, 25, 30, 40, 50 };
+    long[] xpRange = { 10,50,100,200,588,1305,2194,3296,4653,6307,8300,10673,13468,16727,20491,24802,35233,41436,48354,56027,64498,73808  };
     public Slider slider;
 
     //ÉåÉxÉãä«óù
@@ -18,6 +18,7 @@ public class FrandleLevelManager : MonoBehaviour
     {
         if (fullLevelFlag) { return; }
         CalculateLevel(currentXP);
+        visitorManager.ALLSetVisitorLevel();
         SliderUpdate(currentXP);
         frandleLevelText.GetComponent<TextMeshProUGUI>().text = "Lv." + currentLevel.ToString();
     }
@@ -66,6 +67,6 @@ public class FrandleLevelManager : MonoBehaviour
 
     private void Awake()
     {
-        frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        visitorManager = GameObject.Find("VisitorManager").GetComponent<VisitorManager>();
     }
 }

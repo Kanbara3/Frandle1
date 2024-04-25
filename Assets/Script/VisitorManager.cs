@@ -38,126 +38,13 @@ public class VisitorManager : MonoBehaviour
 
     void Start()
     {
-        readVisiterJson();
-        foreach (var visitor in visitorJsonData.visitorInfos)
-        {
-            //VisitorPrefeab
-            GameObject newVisitor = Instantiate(visitorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            newVisitor.transform.SetParent(visitorContent.transform, false);
-            newVisitor.GetComponent<Visitor>().InitVisitor(visitor.id.ToString(), visitor.name);
-            newVisitor.GetComponent<Visitor>().id = visitor.id;
-            newVisitor.GetComponent<Visitor>().name = visitor.name;
-            visitorList.Add(newVisitor); //Prefabオブジェクトのリスト作成
-            //MenuPrefeab
-            GameObject newMenu = Instantiate(menuPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            newMenu.SetActive(false);
-            newMenu.transform.SetParent (menuContent.transform, false);
-            newMenu.GetComponent<VisitorMenu>().id = visitor.id;
-            newMenu.GetComponent<VisitorMenu>().visitorName = visitor.name;
-            newMenu.GetComponent<VisitorMenu>().name = "Menu" + visitor.enName;
-            newMenu.GetComponent <VisitorMenu>().effectName = visitor.effect;
-            
-        }
-        
-        LoadVisitorLevel();
-        GenerateImageIfLevelAboveOne();
-        ApplyBenefit();
+        //ApplyBenefit();
         UpdateLevelTextInVisitorPanel();
     }
 
     void Update()
     {
-        SaveVisitorLevel();
-        
-    }
 
-    //visitorのlevelによる恩恵
-    public void ApplyVisitorLevelBenefit(int id, int level)
-    {
-        // 霊夢：タップで上昇する数を増やす
-        if (id == 1)
-        {
-            frandleManager.UpdateOneTapIncrease(level);
-            //for ( int i=0; i<level; i++)
-            //{
-            //    frandleManager.UpdateOneTapIncrease(1);
-            //}
-        }
-        // 魔理沙：放置中に溜まるmoneyの上限増加
-        if(id == 2)
-        {
-            moneyManager.MoneyIncreaseLimitBoost(level);
-            //for ( int i=0; i<level; i++)
-            //{
-            //    moneyManager.MoneyIncreaseLimitBoost(1);
-            //}
-        }
-        // ルーミア：ごはんを上げた時の好感度上昇(increaseXPRate)をブースト
-        if (id == 3)
-        {
-            foodManager.IncreaseXPRateIncrease(level);
-            //for ( int i=0; i<level; i++)
-            //{
-            //    foodManager.IncreaseXPRateIncrease(1);
-            //}
-        }
-        // 大妖精：胃袋拡張
-        if (id == 4)
-        {
-            for ( int i=0; i<level; i++)
-            {
-                frandleManager.MaxSatietyIncrease(1);
-            }
-        }
-        // チルノ：おもちゃの時間を短縮
-        if (id == 5)
-        {
-            for ( int i=0; i<level; i++)
-            {
-                toyManager.TimeToPlayDecrease(1);
-            }
-        }
-        // 美鈴：満腹度の減少促進
-        if (id == 6)
-        {
-            for ( int i=0; i<level; i++)
-            {
-                frandleManager.BoostSatietyDecreaseRate(1);
-            }
-        }
-        // 小悪魔：冷蔵庫拡張
-        if ( id == 7)
-        {
-            foodManager.ExpandFoodLimit(level);
-            //for ( int i=0; i<level; i++)
-            //{
-            //    foodManager.ExpandFoodLimit(1);
-            //}
-        }
-        // パチュリー：ガチャ値下げ
-        if (id == 8)
-        {
-            for ( int i=0; i<level; i++)
-            {
-
-            }
-        }
-        // 咲夜：ごはん値下げ
-        if (id == 9)
-        {
-            for ( int i=0; i<level; i++)
-            {
-
-            }
-        }
-        // レミリア：1秒で増えるmoneyを増加
-        if (id == 10)
-        {
-            for ( int i=0; i<level; i++)
-            {
-                moneyManager.MoneyIncreaseBoost(1);
-            }
-        }
     }
 
     // 起動後に前回の恩恵まで
@@ -166,13 +53,13 @@ public class VisitorManager : MonoBehaviour
         foreach (var visitors in visitorList)
         {
             var visitor = visitors.GetComponent<Visitor>();
-            ApplyVisitorLevelBenefit(visitor.id, visitor.level);
+            visitor.ChatchFrandleLevelUped();
         }
     }
 
 
     //Levelのセーブ
-    void SaveVisitorLevel()
+    public void SaveVisitorLevel()
     {
         for (int i = 0; i < visitorJsonData.visitorInfos.Length; i++)
         {
@@ -186,7 +73,7 @@ public class VisitorManager : MonoBehaviour
     }
 
     //Levelのロード
-    void LoadVisitorLevel()
+    public void LoadVisitorLevel()
     {
         for (int i = 0; i < visitorJsonData.visitorInfos.Length; i++)
         {
@@ -195,9 +82,10 @@ public class VisitorManager : MonoBehaviour
             visitorList[i].GetComponent<Visitor>().level = visitorLevel;
             // virtualLevelのロード
             int virtualLevel = PlayerPrefs.GetInt("saveVirtualLevel_" + i, 0);
-            visitorList[i].GetComponent<Visitor>().virtualLevel = virtualLevel;
-            visitorList[i].GetComponent<Visitor>().LevelTextUpdate();
+            visitorList[i].GetComponent<Visitor>().SetVirtualLeve(virtualLevel);
         }
+        GenerateImageIfLevelAboveOne();
+        ApplyBenefit();
     }
 
     // 訪問者パネルを開いた時にlevelを更新する
@@ -208,10 +96,43 @@ public class VisitorManager : MonoBehaviour
             for (int i = 0; i < visitorJsonData.visitorInfos.Length; i++)
             {
                 visitorList[i].GetComponent<Visitor>().SetVisitorLevel();
-                Debug.Log("test");
             }
-            
+
         });
+    }
+
+    //SetVisitorLevelを全ての訪問者で実行
+    public void ALLSetVisitorLevel()
+    {
+        foreach (var visitor in visitorList)
+        {
+            visitor.GetComponent<Visitor>().SetVisitorLevel();
+        }
+        ApplyBenefit();
+    }
+
+    // Prefabへの情報代入
+    void SetPrefabInformation()
+    {
+        foreach (var visitor in visitorJsonData.visitorInfos)
+        {
+            //VisitorPrefeab
+            GameObject newVisitor = Instantiate(visitorPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            newVisitor.transform.SetParent(visitorContent.transform, false);
+            newVisitor.GetComponent<Visitor>().SetVisitorImage(visitor.id.ToString(), visitor.name);
+            newVisitor.GetComponent<Visitor>().id = visitor.id;
+            newVisitor.GetComponent<Visitor>().name = visitor.name;
+            visitorList.Add(newVisitor); //Prefabオブジェクトのリスト作成
+            //MenuPrefeab
+            GameObject newMenu = Instantiate(menuPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            newMenu.SetActive(false);
+            newMenu.transform.SetParent(menuContent.transform, false);
+            newMenu.GetComponent<VisitorMenu>().id = visitor.id;
+            newMenu.GetComponent<VisitorMenu>().visitorName = visitor.name;
+            newMenu.GetComponent<VisitorMenu>().name = "Menu" + visitor.enName;
+            newMenu.GetComponent<VisitorMenu>().effectName = visitor.effect;
+
+        }
     }
 
     //VisitorLevelを見て1以上の時に画像を生成
@@ -222,7 +143,7 @@ public class VisitorManager : MonoBehaviour
         {
             if (visitor.level >= 1)
             {
-                visitor.InitVisitor(visitor.id.ToString(), visitor.name);
+                visitor.SetVisitorImage(visitor.id.ToString(), visitor.name);
             }
         }
     }
@@ -234,11 +155,13 @@ public class VisitorManager : MonoBehaviour
         visitorJsonData = JsonUtility.FromJson<VisitorJsonData>(visiterJson);
     }
 
-    
+
     void Awake()
     {
         frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         toyManager = GameObject.Find("ToyManager").GetComponent<ToyManager>();
+        readVisiterJson();
+        SetPrefabInformation();
     }
 }

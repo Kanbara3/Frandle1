@@ -65,8 +65,7 @@ public class FoodShop : MonoBehaviour
     // ¡‚ÌŽžŠÔ‚ð1,2,3‚É•ÏŠ·
     int GetMealTime()
     {
-        int hour = 1; //Œã‚Ù‚Ç•ÏX
-        //int hour = DateTime.Now.Hour;
+        int hour = DateTime.Now.Hour;
 
         if (hour >= 0 && hour < 8)
         {

@@ -5,15 +5,16 @@ using System;
 
 public class FrandleManager : MonoBehaviour
 {
-    private long XP=0; // 数字
+    private FrandleLevelManager levelManager;
+
+    public long XP=0; // 数字
     public GameObject harttext;
     public GameObject kankeitext;
     public long oneTapIncrease = 1;
     public int satiety; //満腹度
     public int satietyiMmutable; //変わらない満足度
     public int MAX_SATIETY = 100;
-    private int satietyDecreaseRate = 1;　//恩恵で使用 満腹度減少レート変更
-    private FrandleLevelManager levelManager;
+    private int satietyDecreaseRate = 0;　//恩恵で使用 満腹度減少レート変更
     public long sliderXP;
 
     // Start is called before the first frame update
@@ -22,8 +23,6 @@ public class FrandleManager : MonoBehaviour
         levelManager = GameObject.Find("FrandleLevelManager").GetComponent<FrandleLevelManager>();
         sliderXP = XP;
         //GiveButton();
-        //LoadTap();
-        LoadSatiety();
         InvokeRepeating("DecreaseSatietyOverTime", 0f, 1f);
 
         
@@ -32,10 +31,9 @@ public class FrandleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(XP);
         //levelManager.FrandleLevelUp(tap);
         //KankeiDirector();
-        SaveTap();
-        SaveSatiety();
         DecreaseSatietyOverTime();
     }
 
@@ -79,9 +77,9 @@ public class FrandleManager : MonoBehaviour
     }
 
     // 訪問者の恩恵でsatietyDecreaseRateを増加
-    public void BoostSatietyDecreaseRate(int upRate)
+    public void BoostSatietyDecreaseRate(int upRate, int initialValue)
     {
-        satietyDecreaseRate += upRate;
+        satietyDecreaseRate = upRate + initialValue;
     }
 
     // XPを増やす
@@ -91,7 +89,7 @@ public class FrandleManager : MonoBehaviour
     }
 
     //満足度のセーブ
-    private void SaveSatiety()
+    public void SaveSatiety()
     {
         DateTime lastMeal2 = DateTime.UtcNow; //食後の時間を記録
         PlayerPrefs.SetInt("saveSatiety", satiety);
@@ -99,7 +97,7 @@ public class FrandleManager : MonoBehaviour
     }
 
     //満足度のロード
-    private void LoadSatiety()
+    public void LoadSatiety()
     {
         satiety = PlayerPrefs.GetInt("saveSatiety", 0);
         satietyiMmutable = satiety;
@@ -113,9 +111,10 @@ public class FrandleManager : MonoBehaviour
         XP += upRate;
         sliderXP += upRate;
         levelManager.FrandleLevelUp(XP);
-        HeartTextUpdate();
+        UpdateHeartUI();
     }
 
+    // ごはんをあげて好感度と満腹度を上昇
     public void EatFood(long upXP, int upSatiety)
     {
         upFavourableImpression(upXP);
@@ -129,9 +128,9 @@ public class FrandleManager : MonoBehaviour
     }
 
     // oneTapIncreaseの更新
-    public void UpdateOneTapIncrease(long upRate)
+    public void UpdateOneTapIncrease(long upRate, long initialValue)
     {
-        oneTapIncrease = upRate;
+        oneTapIncrease = upRate + initialValue;
     }
 
     // BackgroundとFrandleでEventTriggerにアタッチ
@@ -140,13 +139,7 @@ public class FrandleManager : MonoBehaviour
         XP += oneTapIncrease;
         sliderXP += oneTapIncrease;
         levelManager.FrandleLevelUp(XP);
-        HeartTextUpdate();
-    }
-
-    // スライダーの更新
-    public void UpdateSliderValue()
-    {
-        levelManager.FrandleLevelUp(XP);
+        UpdateHeartUI();
     }
 
     // 好感度セーブ
@@ -158,15 +151,28 @@ public class FrandleManager : MonoBehaviour
     public void LoadTap()
     {
         XP = long.Parse(PlayerPrefs.GetString("saveTap", (000).ToString()));
-        HeartTextUpdate();
+        levelManager.FrandleLevelUp(XP);
+        UpdateHeartUI();
+
+    }
+
+    public int GetFrandleLevel()
+    {
+        return levelManager.currentLevel;
     }
 
     //harttextの更新
-    public void HeartTextUpdate()
+    public void UpdateHeartUI()
     {
         this.harttext.GetComponent<TextMeshProUGUI>().text = XP.ToString("F0");
+        levelManager.FrandleLevelUp(XP);
     }
-    
+
+    private void Awake()
+    {
+        levelManager = GameObject.Find("FrandleLevelManager").GetComponent<FrandleLevelManager>();
+    }
+
     // 好感度によって関係テキストが変化する
     //public void KankeiDirector()
     //{

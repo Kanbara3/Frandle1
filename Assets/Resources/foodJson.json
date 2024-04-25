@@ -9,77 +9,77 @@
         },
         {
             "id": 2,
-            "like": 1000,
+            "like": 5,
             "mealTime": 1,
             "cuisineType": 2,
             "price": 20
         },
         {
             "id": 3,
-            "like": 10000,
+            "like": 10,
             "mealTime": 1,
             "cuisineType": 3,
             "price": 30
         },
         {
             "id": 4,
-            "like": 100000,
+            "like": 15,
             "mealTime": 1,
             "cuisineType": 4,
             "price": 40
         },
         {
             "id": 5,
-            "like": 1000000,
+            "like": 20,
             "mealTime": 2,
             "cuisineType": 1,
             "price": 50
         },
         {
             "id": 6,
-            "like": 10000000,
+            "like": 25,
             "mealTime": 2,
             "cuisineType": 2,
             "price": 60
         },
         {
             "id": 7,
-            "like": 100000000,
+            "like": 30,
             "mealTime": 2,
             "cuisineType": 3,
             "price": 70
         },
         {
             "id": 8,
-            "like": 1000000000,
+            "like": 35,
             "mealTime": 2,
             "cuisineType": 4,
             "price": 80
         },
         {
             "id": 9,
-            "like": 10000000000,
+            "like": 40,
             "mealTime": 3,
             "cuisineType": 1,
             "price": 90
         },
         {
             "id": 10,
-            "like": 100000000000,
+            "like": 50,
             "mealTime": 3,
             "cuisineType": 2,
             "price": 100
         },
         {
             "id": 11,
-            "like": 1000000000000,
+            "like": 60,
             "mealTime": 3,
             "cuisineType": 3,
             "price": 110
         },
         {
             "id": 12,
-            "like": 10000000000000,
+            "like": 70,
             "mealTime": 3,
             "cuisineType": 4,
             "price": 120

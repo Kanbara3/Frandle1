@@ -9,8 +9,7 @@ public class Visitor : MonoBehaviour
 {
     private FrandleManager frandleManager;
     private MoneyManager moneyManager;
-    private VisitorManager visitorManager;
-    private FrandleLevelManager levelManager;
+    private BenefitManager benefitManager;
 
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI levelText;
@@ -30,19 +29,13 @@ public class Visitor : MonoBehaviour
     {
         menu = GameObject.Find("Menu").transform.GetChild(id - 1).gameObject; //各キャラクターのメニューパネル取得
         iconButton = this.transform.GetChild(0).GetComponent<Button>(); //子オブジェクトのButtonを取得
-        if(level > 0) iconButton.onClick.AddListener(ActivateMenu); //訪問者メニューを開く
+        iconButton.onClick.AddListener(ActivateMenu); //訪問者メニューを開く
         menu.GetComponent<VisitorMenu>().returnButton.onClick.AddListener(DeactivateMenu);  //訪問者メニューを閉じる
-        menu.GetComponent<VisitorMenu>().levelUpButton.onClick.AddListener(LevelUp); // levelUpボタン
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        menu.GetComponent<VisitorMenu>().levelUpButton.onClick.AddListener(ButtonLevelUp); // levelUpボタン
     }
 
     //levelテキストの更新
-    public void LevelTextUpdate()
+    private void LevelTextUpdate()
     {
         levelText.text = "Lv." + level.ToString();
     }
@@ -50,6 +43,7 @@ public class Visitor : MonoBehaviour
     // menuPanelのアクティブ
     void ActivateMenu()
     {
+        if(level == 0) { return; }
         if(menu != null)
         {
             menu.SetActive(true);
@@ -66,38 +60,50 @@ public class Visitor : MonoBehaviour
     }
 
     // レベルアップボタン
-    void LevelUp()
+    void ButtonLevelUp()
     {
-        level++;
-        virtualLevel++;
-        LevelTextUpdate();
-        menu.GetComponent<VisitorMenu>().LevelTextUpdate(level, virtualLevel);
-        visitorManager.ApplyVisitorLevelBenefit(id, level);
         moneyManager.Pay(100);
-        SetVisitorLevel();
+        LevelUp();
     }
 
+    // ガチャを回したときのVisitorのレベルアップ
     public void GachaLevelUp()
     {
-        level++;
-        virtualLevel++;
-        InitVisitor(id.ToString(), name);
+        LevelUp();
+        SetVisitorImage(id.ToString(), name);
         LevelTextUpdate();
+    }
+
+    // レベルアップの際に必ず実行
+    private void LevelUp()
+    {
+        virtualLevel++;
+        SetVisitorLevel();
+        benefitManager.ApplyVisitorLevelBenefit(id, level);
     }
 
     // FrandleのLevelを上限に大きい方を選択し、Visitorのlevelに代入
     public void SetVisitorLevel()
     {
-        if (levelManager.currentLevel > virtualLevel) return;
-        int setLevel = Mathf.Min(virtualLevel, levelManager.currentLevel);
-        level = setLevel;
-        LevelTextUpdate();
+        level = Mathf.Min(virtualLevel, frandleManager.GetFrandleLevel());
         if(menu == null || menu.GetComponent<VisitorMenu>() == null) { return; }
         menu.GetComponent<VisitorMenu>().LevelTextUpdate(level, virtualLevel);
+        LevelTextUpdate();
+    }
+
+    public void ChatchFrandleLevelUped()
+    {
+        benefitManager.ApplyVisitorLevelBenefit(id, level);
+    }
+
+    public void SetVirtualLeve(int level)
+    {
+        virtualLevel = level;
+        LevelTextUpdate();
     }
 
     //Asset>Resources>CharacterImageフォルダから画像を読み込み
-    public void InitVisitor(string imagePath, string visitorName)
+    public void SetVisitorImage(string imagePath, string visitorName)
     {
         visitorImage.sprite = Resources.Load<Sprite>("VisitorImage/" + (level == 0 ? "0" : imagePath));
         nameText.text = (level == 0 ? "?" : visitorName); //levelが0のときnameを"?"にする
@@ -107,8 +113,7 @@ public class Visitor : MonoBehaviour
     {
         frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
-        visitorManager = GameObject.Find("VisitorManager").GetComponent<VisitorManager>();
-        levelManager = GameObject.Find("FrandleLevelManager").GetComponent<FrandleLevelManager>();
+        benefitManager = GameObject.Find("BenefitManager").GetComponent<BenefitManager>();
 
         visitorImage = this.transform.GetChild(0).GetComponent<Image>();
         nameText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();

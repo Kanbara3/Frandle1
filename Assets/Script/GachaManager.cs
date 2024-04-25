@@ -14,7 +14,7 @@ public class GachaManager : MonoBehaviour
     public TextMeshProUGUI ticketPriceText;
     public TextMeshProUGUI ticketNumText;
     private int buyCount = 0; //翌日にリセット
-    private int ticketCount = 0; //チケットの所持数
+    public int ticketCount = 0; //チケットの所持数
     private int ticketPrice = 100;
     private List<int> ticketPriceList = new List<int> { 100 };//{500, 1000, 5000, 10000};
 
@@ -62,7 +62,6 @@ public class GachaManager : MonoBehaviour
                 if (visitor.id == randomNumber)
                 {
                     visitor.GachaLevelUp();
-                    visitorManager.GetComponent<VisitorManager>().ApplyVisitorLevelBenefit(visitor.id, visitor.level);
                     GachaEffect(randomNumber, visitor.virtualLevel);
                     break;
                 }
@@ -76,7 +75,7 @@ public class GachaManager : MonoBehaviour
         if (ticketCount >= 10)
         {
             ticketCount -= 10;
-            ticketNumText.text = ticketCount.ToString();
+            ticketNumText.text = ticketCount.ToString() + "枚";
             //visitorManager.GetComponent<VisitorManager>().ApplyVisitorLevelBenefit();
             Visitor[] visitors = visitorManager.visitorContent.GetComponentsInChildren<Visitor>();
             for(int i = 0; i < 10; i++)
@@ -87,7 +86,6 @@ public class GachaManager : MonoBehaviour
                     if (visitor.id == randomNumber)
                     {
                         visitor.GachaLevelUp();
-                        visitorManager.GetComponent<VisitorManager>().ApplyVisitorLevelBenefit(visitor.id, visitor.level);
                         GachaEffect10(i, randomNumber, visitor.virtualLevel);
                         break;
                     }
@@ -96,12 +94,12 @@ public class GachaManager : MonoBehaviour
         }
     }
 
-    void SaveTicketNum()
+    public void SaveTicketNum()
     {
         PlayerPrefs.SetInt("ticketNum", ticketCount);
     }
 
-    void LoadTicketNum()
+    public void LoadTicketNum()
     {
         ticketCount = PlayerPrefs.GetInt("ticketNum", 0);
         ticketPriceText.text = "訪問チケット１枚／" + ticketPrice.ToString() + "円";
@@ -123,7 +121,7 @@ public class GachaManager : MonoBehaviour
             //ticketPrice = ticketPriceList[ticketPriceList.Count-1];
             buyCount++;
             ticketCount++;
-            ticketNumText.text = ticketCount.ToString();
+            ticketNumText.text = ticketCount.ToString() + "枚";
         }
         else
         {
@@ -131,7 +129,7 @@ public class GachaManager : MonoBehaviour
             ticketPriceText.text = "訪問チケット１枚／"+ticketPrice.ToString()+"円";
             buyCount++;
             ticketCount++;
-            ticketNumText.text = ticketCount.ToString();
+            ticketNumText.text = ticketCount.ToString() + "枚";
         }
     }
 

@@ -10,10 +10,13 @@ public class Food : MonoBehaviour
     private FoodManager foodManager;
     private FoodShop foodShop;
 
+    public int id;
     // ごはんの数制御
     private string foodName;
     // ごはんの個数のtext
     private TextMeshProUGUI foodText;
+    // 好感度上昇数値のtext
+    private TextMeshProUGUI foodLikeText;
     // ごはんの個数のint
     public int numFood = 0;
     // ご飯の数の抑制
@@ -48,11 +51,13 @@ public class Food : MonoBehaviour
             if (frandleManager.CapableToEat(satietyIncreaseRate)==false) return;
             if (numFood == 0) return;
             numFood -= 1;
-            frandleManager.EatFood(increaseXPRate, satietyIncreaseRate);
+            //欲しがっているfoodをあげたときのブースト分岐
+            if (id == foodManager.desiredFoodId){ frandleManager.EatFood(increaseXPRate * 2, satietyIncreaseRate);}
+            else{ frandleManager.EatFood(increaseXPRate, satietyIncreaseRate);}
             FoodRecord();
             FoodTextUpdate();
             foodManager.CaluculateFoodStockSum();
-
+            
         });
     }
 
@@ -77,6 +82,7 @@ public class Food : MonoBehaviour
     public void FoodTextUpdate()
     {
         foodText.text = "×" + " " + numFood.ToString();
+        foodLikeText.text = "＋" + " " + increaseXPRate.ToString();
     }
 
     public bool hasEaten = false;
@@ -100,6 +106,7 @@ public class Food : MonoBehaviour
         foodShop = GameObject.Find("FoodShop").GetComponent<FoodShop>();
         foodButton = this.transform.GetChild(0).GetComponent<Button>();
         foodText = this.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        foodLikeText = this.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         GiveButton();
         foodImage = this.transform.GetChild(0).GetComponent<Image>();
     }

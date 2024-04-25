@@ -21,13 +21,12 @@ public class MoneyManager : MonoBehaviour
 
     void Start()
     {
-        LoadData();
     }
 
     void Update()
     {
         IncreaseMoney();
-        SaveData();
+        //money = 100;
     }
 
     // increaseMoneySpan秒ごとにmoneyをtimeIncreaseMoney円増やす
@@ -55,14 +54,14 @@ public class MoneyManager : MonoBehaviour
     }
 
     // 放置中に稼げるお金の上限を増やす
-    public void MoneyIncreaseLimitBoost(int upRate)
+    public void MoneyIncreaseLimitBoost(int upRate, int initialValue)
     {
-        MoneyIncreaseLimit = upRate;
+        MoneyIncreaseLimit = upRate + initialValue;
     }
     // 1秒ごとに増えるお金を増加
-    public void MoneyIncreaseBoost(int upRate)
+    public void MoneyIncreaseBoost(int upRate, int initialValue)
     {
-        moneyIncrease += upRate;
+        moneyIncrease = upRate + initialValue;
     }
 
 
@@ -73,14 +72,14 @@ public class MoneyManager : MonoBehaviour
     }
 
     //moneyのセーブ
-    public void SaveData()
+    public void SaveMoneyData()
     {
         PlayerPrefs.SetInt("moneyData", money);
         PlayerPrefs.SetInt("lastAddMoneyTime", lastAddMoneyTime);
     }
 
     //moneyのロード
-    public void LoadData()
+    public void LoadMoneyData()
     {
         money = PlayerPrefs.GetInt("moneyData", 0);
         lastAddMoneyTime = PlayerPrefs.GetInt("lastAddMoneyTime", 0);

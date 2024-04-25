@@ -43,29 +43,28 @@ public class FoodManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        readJson();
+        //readJson();
 
-        // jsonから読み込み
-        foreach (var item in jsonData.foodInfos)
-        {
-            //int p = i * 200;
-            GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
-            newFood.transform.SetParent(foodContent.transform, false);
-            newFood.GetComponent<Food>().InitFood("1-" + (item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
-            foodList.Add(newFood); //Prefabオブジェクトのリスト作成
-            cuisineTypeList.Add(item.mealTime);
-            mealTypeList.Add(item.mealTime);
+        //// jsonから読み込み
+        //foreach (var item in jsonData.foodInfos)
+        //{
+        //    //int p = i * 200;
+        //    GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
+        //    newFood.transform.SetParent(foodContent.transform, false);
+        //    newFood.GetComponent<Food>().InitFood("1-" + (item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
+        //    newFood.GetComponent<Food>().id = item.id;
+        //    foodList.Add(newFood); //Prefabオブジェクトのリスト作成
+        //    cuisineTypeList.Add(item.mealTime);
+        //    mealTypeList.Add(item.mealTime);
 
-        }
+        //}
 
-        LoadNumFoodFunction();
         RecordSelectedFood();
         DesiredFood();
     }
 
     void Update()
     {
-        SaveNumFoodFunction();
         satietyText.GetComponent<TextMeshProUGUI>().text = "満腹度：" + frandleManager.satiety.ToString() + "/" + frandleManager.MAX_SATIETY.ToString();
     }
 
@@ -101,9 +100,11 @@ public class FoodManager : MonoBehaviour
     }
 
     // 欲しがってるご飯を表示
+    public int desiredFoodId;
     private void DesiredFood()
     {
-        int randomNumber = UnityEngine.Random.Range(1, foodList.Count + 1);
+        int randomNumber = Random.Range(1, foodList.Count + 1);
+        desiredFoodId = randomNumber;
         desiredFoodImage.sprite = Resources.Load<Sprite>("FoodImage/" + "1-" + randomNumber);
     }
 
@@ -112,14 +113,14 @@ public class FoodManager : MonoBehaviour
     {
         for (int i = 0; i < foodList.Count; i++)
         {
-            foodList[i].GetComponent<Food>().increaseXPRate = upRate;
+            foodList[i].GetComponent<Food>().increaseXPRate = upRate + foodList[i].GetComponent<Food>().increaseXPRate;
         }
     }
 
     // 訪問者の恩恵で冷蔵庫の拡張
-    public void ExpandFoodLimit(int upRate)
+    public void ExpandFoodLimit(int upRate, int initialValue)
     {
-        limitFoodNum = upRate;
+        limitFoodNum = upRate + initialValue;
     }
 
     // numFoodのセーブ
@@ -149,6 +150,25 @@ public class FoodManager : MonoBehaviour
         return foodList[id].GetComponent<Food>().numFood;
     }
 
+    private void SetPrefabInformation()
+    {
+        readJson();
+
+        // jsonから読み込み
+        foreach (var item in jsonData.foodInfos)
+        {
+            //int p = i * 200;
+            GameObject newFood = Instantiate(foodPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
+            newFood.transform.SetParent(foodContent.transform, false);
+            newFood.GetComponent<Food>().InitFood("1-" + (item.id), long.Parse(item.like)); //フォルダから画像読み込みする関数を実行
+            newFood.GetComponent<Food>().id = item.id;
+            foodList.Add(newFood); //Prefabオブジェクトのリスト作成
+            cuisineTypeList.Add(item.mealTime);
+            mealTypeList.Add(item.mealTime);
+
+        }
+    }
+
     void readJson()
     {
         //Resourcesからdocument.jsonを読み込み、string型にキャスト
@@ -161,5 +181,6 @@ public class FoodManager : MonoBehaviour
     void Awake()
     {
         frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        SetPrefabInformation();
     }
 }

@@ -10,7 +10,7 @@ public class Toy : MonoBehaviour
     public int toyId;
 
     // オブジェクト参照
-    private Button timeButton;
+    public Button timeButton;
     private TextMeshProUGUI timerText;
 
     private int currentTime; //現在時間
@@ -25,7 +25,8 @@ public class Toy : MonoBehaviour
     private DateTime lastTapTime; //最後に押した時間
     private TimeSpan elapsedTime; //経過時間
 
-    private long HeartIncreaseAmount = 1; // 好感度を増やす量
+    public long HeartIncreaseAmount = 1; // 好感度を増やす量
+    public float MoneyIncreaseAmount = 1; //お金をブースト
 
     void Start()
     {
@@ -39,7 +40,6 @@ public class Toy : MonoBehaviour
             timeButton.interactable = false; //ボタン無効化
         });
 
-        LoadTimerFunction();
     }
 
     void Update()
@@ -48,7 +48,7 @@ public class Toy : MonoBehaviour
         if (!isActive) { return; }
 
         currentTime = timeToPlay - (int)elapsedTime.TotalSeconds;
-        Debug.Log(currentTime);
+        //Debug.Log(currentTime);
         if (currentTime > 0)
         {
             elapsedTime = DateTime.UtcNow - lastTapTime;
@@ -65,7 +65,6 @@ public class Toy : MonoBehaviour
             isActive = false;
         }
         DisplayTimerText();
-        SaveTimerFunction();
         
     }
 
@@ -90,9 +89,8 @@ public class Toy : MonoBehaviour
         if(timer >= interval)
         {
             if (this.name == "Ehon") { frandleManager.GainXP(HeartIncreaseAmount); }
-            if (this.name == "Doll") { frandleManager.GainXP((long)(HeartIncreaseAmount * 1.2)); }
-            frandleManager.HeartTextUpdate();
-            frandleManager.UpdateSliderValue();
+            if (this.name == "Doll") { frandleManager.GainXP((long)(HeartIncreaseAmount * 1.5)); }
+            frandleManager.UpdateHeartUI();
             timer = 0f;
         }
     }
@@ -101,14 +99,14 @@ public class Toy : MonoBehaviour
     // 種類によりmoneyIncrease倍率を上げる
     void AdjustMoneyIncrease()
     {
-        if(this.name == "Knife") { moneyManager.moneyIncreaseBoost *= 2f; }
-        if(this.name == "Bomb") { moneyManager.moneyIncreaseBoost *= 1.5f; }
+        if(this.name == "Knife") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*2f; }
+        if(this.name == "Bomb") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*1.5f; }
     }
     // 倍率を下げる
     void AdjustMoneyIncreaseDownward()
     {
-        if (this.name == "Knife") { moneyManager.moneyIncreaseBoost /= 2f; }
-        if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= 1.5f; }
+        if (this.name == "Knife") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 2f; }
+        if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 1.5f; }
     }
 
     
