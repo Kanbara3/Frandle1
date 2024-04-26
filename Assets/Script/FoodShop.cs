@@ -57,7 +57,7 @@ public class FoodShop : MonoBehaviour
             }
             else
             {
-                Destroy(foodShop);
+                foodShop.SetActive(false);
             }
         }
     }
@@ -78,6 +78,18 @@ public class FoodShop : MonoBehaviour
         else
         {
             return 3;
+        }
+    }
+
+    // ñKñ‚é“ÇÃÉåÉxÉãÇ…çáÇÌÇπÇƒäÑà¯
+    public void DiscountFoodPrice(int level)
+    {
+        foreach(GameObject foodShop in foodShopList)
+        {
+            float discountPrice_f = foodShop.GetComponent<FoodShopPrefab>().price * ((0.5091f * (float)level - 0.4091f) * 0.0001f);
+            int discountPrice = Mathf.CeilToInt(discountPrice_f);
+            foodShop.GetComponent<FoodShopPrefab>().price -= discountPrice;
+            Debug.Log(discountPrice);
         }
     }
 

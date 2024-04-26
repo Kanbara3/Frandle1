@@ -6,6 +6,7 @@ using System;
 public class FrandleManager : MonoBehaviour
 {
     private FrandleLevelManager levelManager;
+    private TapParticle tapParticle;
 
     public long XP=0; // 数字
     public GameObject harttext;
@@ -71,9 +72,9 @@ public class FrandleManager : MonoBehaviour
     }
 
     // 訪問者の恩恵でMAX_SATIETYを増加
-    public void MaxSatietyIncrease(int upRate)
+    public void MaxSatietyIncrease(int upRate, int initialValue)
     {
-        MAX_SATIETY += upRate;
+        MAX_SATIETY = upRate + initialValue;
     }
 
     // 訪問者の恩恵でsatietyDecreaseRateを増加
@@ -140,6 +141,7 @@ public class FrandleManager : MonoBehaviour
         sliderXP += oneTapIncrease;
         levelManager.FrandleLevelUp(XP);
         UpdateHeartUI();
+        tapParticle.TapHartParticle();
     }
 
     // 好感度セーブ
@@ -171,6 +173,7 @@ public class FrandleManager : MonoBehaviour
     private void Awake()
     {
         levelManager = GameObject.Find("FrandleLevelManager").GetComponent<FrandleLevelManager>();
+        tapParticle = GameObject.Find("TapParticleManager").GetComponent<TapParticle>();
     }
 
     // 好感度によって関係テキストが変化する

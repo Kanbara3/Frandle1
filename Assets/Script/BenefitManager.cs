@@ -10,6 +10,8 @@ public class BenefitManager : MonoBehaviour
     private FrandleManager frandleManager;
     private MoneyManager moneyManager;
     public ToyManager toyManager;
+    private GachaManager gachaManager;
+    private FoodShop foodShop;
 
     public void ApplyVisitorLevelBenefit(int id, int level)
     {
@@ -21,7 +23,7 @@ public class BenefitManager : MonoBehaviour
         // 魔理沙：放置中に溜まるmoneyの上限増加
         if (id == 2)
         {
-            moneyManager.MoneyIncreaseLimitBoost(level, 10);
+            moneyManager.MoneyIncreaseLimitBoost(level, 100);
         }
         // ルーミア：ごはんを上げた時の好感度上昇(increaseXPRate)をブースト
         if (id == 3)
@@ -31,13 +33,13 @@ public class BenefitManager : MonoBehaviour
         // 大妖精：胃袋拡張
         if (id == 4)
         {
-            frandleManager.MaxSatietyIncrease(level);
+            frandleManager.MaxSatietyIncrease(level, 50);
         }
 
-        // チルノ：おもちゃの時間を短縮
+        // チルノ：おもちゃの効果をアップ
         if (id == 5)
         {
-            toyManager.RaiseTheBenefitOfToy(level);
+            toyManager.RaiseTheBenefitOfToy(level, 1);
         }
 
         // 美鈴：満腹度の減少促進
@@ -54,15 +56,13 @@ public class BenefitManager : MonoBehaviour
         // パチュリー：ガチャ値下げ
         if (id == 8)
         {
-            float discountRate = 0.764f * (float)level - 0.664f;
+            gachaManager.DiscountTicketPrice(level);
+
         }
         // 咲夜：ごはん値下げ
         if (id == 9)
         {
-            for (int i = 0; i < level; i++)
-            {
-
-            }
+            foodShop.DiscountFoodPrice(level);
         }
         // レミリア：1秒で増えるmoneyを増加
         if (id == 10)
@@ -77,5 +77,7 @@ public class BenefitManager : MonoBehaviour
         foodManager = GameObject.Find("FoodManager").GetComponent <FoodManager>();
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         toyManager = GameObject.Find("ToyManager").GetComponent<ToyManager>();
+        gachaManager = GameObject.Find("GachaManager").GetComponent<GachaManager>();
+        foodShop = GameObject.Find("FoodShop").GetComponent<FoodShop>();
     }
 }

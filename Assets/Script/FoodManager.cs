@@ -100,6 +100,7 @@ public class FoodManager : MonoBehaviour
     }
 
     // —~‚µ‚ª‚Á‚Ä‚é‚²”Ñ‚ğ•\¦
+    // ˆê’èŠÔ‚²‚Æ‚É•Ï‚í‚é‚æ‚¤‚É•ÏX‚·‚é
     public int desiredFoodId;
     private void DesiredFood()
     {
@@ -109,7 +110,7 @@ public class FoodManager : MonoBehaviour
     }
 
     // –K–âÒ‚Ì‰¶Œb‚Å‚²‚Í‚ñ‚ğ—^‚¦‚½‚ÌDŠ´“x‘•—Ê(increaseXPRate)‚ğã¸‚³‚¹‚é
-    public void IncreaseXPRateIncrease(long upRate)
+    public void IncreaseXPRateIncrease(int upRate)
     {
         for (int i = 0; i < foodList.Count; i++)
         {

@@ -33,13 +33,6 @@ public class FoodShopPrefab : MonoBehaviour
         
     }
 
-    //private void test()
-    //{
-    //    int foodId = 0;
-    //    BuyFood(foodId);
-    //    Debug.Log("test");
-    //}
-
     //w“ü(monayManager–â‚¢‡‚í‚¹)
     private void BuyButtonAction()
     {
@@ -69,8 +62,6 @@ public class FoodShopPrefab : MonoBehaviour
             }
         }
     }
-
-
 
     //Asset>Resources>FoodImageƒtƒHƒ‹ƒ_‚©‚ç‰æ‘œ‚ğ“Ç‚İ‚İ
     public void LoadFoodImage(string imagePath)

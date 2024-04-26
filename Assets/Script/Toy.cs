@@ -12,6 +12,7 @@ public class Toy : MonoBehaviour
     // オブジェクト参照
     public Button timeButton;
     private TextMeshProUGUI timerText;
+    private long XP = 0;
 
     private int currentTime; //現在時間
     public int timeToPlay;  //初期時間
@@ -65,7 +66,6 @@ public class Toy : MonoBehaviour
             isActive = false;
         }
         DisplayTimerText();
-        
     }
 
     // タイマー表示関数
@@ -85,11 +85,12 @@ public class Toy : MonoBehaviour
     private float interval = 1f;
     void IncreaseHeartsAutomatically()
     {
+        XP = frandleManager.XP;
         timer += Time.deltaTime;
         if(timer >= interval)
         {
-            if (this.name == "Ehon") { frandleManager.GainXP(HeartIncreaseAmount); }
-            if (this.name == "Doll") { frandleManager.GainXP((long)(HeartIncreaseAmount * 1.5)); }
+            if (this.name == "Ehon") { frandleManager.GainXP((long)(XP * (HeartIncreaseAmount * 0.1 + 1))); }
+            if (this.name == "Doll") { frandleManager.GainXP((long)(XP * (HeartIncreaseAmount * 0.1 + 1)*1.5)); }
             frandleManager.UpdateHeartUI();
             timer = 0f;
         }
@@ -99,14 +100,14 @@ public class Toy : MonoBehaviour
     // 種類によりmoneyIncrease倍率を上げる
     void AdjustMoneyIncrease()
     {
-        if(this.name == "Knife") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*2f; }
-        if(this.name == "Bomb") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*1.5f; }
+        if(this.name == "Knife") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*1.5f; }
+        if(this.name == "Bomb") { moneyManager.moneyIncreaseBoost *= MoneyIncreaseAmount*2f; }
     }
     // 倍率を下げる
     void AdjustMoneyIncreaseDownward()
     {
-        if (this.name == "Knife") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 2f; }
-        if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 1.5f; }
+        if (this.name == "Knife") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 1.5f; }
+        if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 2f; }
     }
 
     

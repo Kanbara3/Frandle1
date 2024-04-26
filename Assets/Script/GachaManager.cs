@@ -16,7 +16,7 @@ public class GachaManager : MonoBehaviour
     private int buyCount = 0; //翌日にリセット
     public int ticketCount = 0; //チケットの所持数
     private int ticketPrice = 100;
-    private List<int> ticketPriceList = new List<int> { 100 };//{500, 1000, 5000, 10000};
+    private List<int> ticketPriceList = new List<int> { 500, 1000, 5000, 10000, 20000, 40000, 60000 };
 
     public GameObject gachaResultPanel;
     public GameObject gachaResultPanel10;
@@ -78,7 +78,7 @@ public class GachaManager : MonoBehaviour
             ticketNumText.text = ticketCount.ToString() + "枚";
             //visitorManager.GetComponent<VisitorManager>().ApplyVisitorLevelBenefit();
             Visitor[] visitors = visitorManager.visitorContent.GetComponentsInChildren<Visitor>();
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int randomNumber = UnityEngine.Random.Range(1, visitors.Length + 1);
                 foreach (Visitor visitor in visitors)
@@ -115,22 +115,32 @@ public class GachaManager : MonoBehaviour
     // ticketBuyButtonを押したときに実行する関数
     public void IncrementTicketPrice()
     {
-        buyGachaTicket();
-        if (buyCount >= ticketPriceList.Count)
+        if (ticketPrice < moneyManager.money)
         {
-            //ticketPrice = ticketPriceList[ticketPriceList.Count-1];
-            buyCount++;
-            ticketCount++;
-            ticketNumText.text = ticketCount.ToString() + "枚";
+            buyGachaTicket();
+            if (buyCount >= ticketPriceList.Count)
+            {
+                ticketPrice = ticketPriceList[ticketPriceList.Count - 1];
+                buyCount++;
+                ticketCount++;
+                ticketNumText.text = ticketCount.ToString() + "枚";
+            }
+            else
+            {
+                ticketPrice = ticketPriceList[buyCount];
+                ticketPriceText.text = "訪問チケット１枚／" + ticketPrice.ToString() + "円";
+                buyCount++;
+                ticketCount++;
+                ticketNumText.text = ticketCount.ToString() + "枚";
+            }
         }
-        else
-        {
-            ticketPrice = ticketPriceList[buyCount];
-            ticketPriceText.text = "訪問チケット１枚／"+ticketPrice.ToString()+"円";
-            buyCount++;
-            ticketCount++;
-            ticketNumText.text = ticketCount.ToString() + "枚";
-        }
+    }
+
+    public void DiscountTicketPrice(int level)
+    {
+        float discountPrice_f = ticketPrice * ((0.764f * (float)level - 0.664f) * 0.0001f);
+        int discountPrice = Mathf.CeilToInt(discountPrice_f);
+        ticketPrice -= discountPrice;
     }
 
     // 1連ガチャを引いた時の演出
@@ -146,7 +156,7 @@ public class GachaManager : MonoBehaviour
         level.text = "Lv." + visitorLevel.ToString();
         if (visitorLevel == 1)
         {
-            newTextObject = Instantiate(newTextPrefab, new Vector3(71.9f,95.8f,0f), Quaternion.identity);
+            newTextObject = Instantiate(newTextPrefab, new Vector3(71.9f, 95.8f, 0f), Quaternion.identity);
             newTextObject.transform.SetParent(gachaResultPanel.transform, false);
         }
     }

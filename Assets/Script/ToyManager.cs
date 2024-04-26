@@ -31,12 +31,12 @@ public class ToyManager : MonoBehaviour
     //}
 
     // ‚¨‚à‚¿‚á‚Ì‰¶Œb‚ğã‚°‚é
-    public void RaiseTheBenefitOfToy(int upRate)
+    public void RaiseTheBenefitOfToy(int upRate, int initialValue)
     {
         for (int i = 0; i < toyList.Count; i++)
         {
-            toyList[i].GetComponent<Toy>().HeartIncreaseAmount += upRate;
-            toyList[i].GetComponent<Toy>().MoneyIncreaseAmount += upRate;
+            toyList[i].GetComponent<Toy>().HeartIncreaseAmount = upRate + initialValue;
+            toyList[i].GetComponent<Toy>().MoneyIncreaseAmount = upRate + initialValue;
         }
     }
 
