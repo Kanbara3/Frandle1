@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class SaveManager : MonoBehaviour
     private MoneyManager moneyManager;
     private FoodManager foodManager;
     private GachaManager gachaManager;
+    private AutoXpManager autoXpManagerEhon;
+    private AutoXpManager autoXpManagerDoll;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,8 @@ public class SaveManager : MonoBehaviour
         moneyManager.LoadMoneyData();//‚¨‹à
         foodManager.LoadNumFoodFunction();
         gachaManager.LoadTicketNum();
+        autoXpManagerEhon.LoadAutoXpManager();
+        autoXpManagerDoll.LoadAutoXpManager();
     }
 
     // Update is called once per frame
@@ -33,6 +38,8 @@ public class SaveManager : MonoBehaviour
         moneyManager.SaveMoneyData();
         foodManager.SaveNumFoodFunction();
         gachaManager.SaveTicketNum();
+        autoXpManagerEhon.SaveAutoXpManager();
+        autoXpManagerDoll.SaveAutoXpManager();
     }
 
     // toy
@@ -59,5 +66,7 @@ public class SaveManager : MonoBehaviour
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         foodManager = GameObject.Find("FoodManager").GetComponent<FoodManager>();
         gachaManager = GameObject.Find("GachaManager").GetComponent<GachaManager>();
+        autoXpManagerEhon = GameObject.Find("AutoXpManagerEhon").GetComponent<AutoXpManager>();
+        autoXpManagerDoll = GameObject.Find("AutoXpManagerDoll").GetComponent<AutoXpManager>();
     }
 }

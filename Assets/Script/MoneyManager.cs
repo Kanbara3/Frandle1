@@ -51,6 +51,7 @@ public class MoneyManager : MonoBehaviour
         timeIncreaseMoney = (int)((currentTime - lastAddMoneyTime) * moneyIncrease@* moneyIncreaseBoost);
         timeIncreaseMoney = Mathf.Min(timeIncreaseMoney, MoneyIncreaseLimit); // timeIncreaseMoney‚ªMoneyIncreaseLimit‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§ŒÀ‚·‚é
         IncreaseMoneyOverTime();
+        //Debug.Log(currentTime + "-" + lastAddMoneyTime);
     }
 
     // •ú’u’†‚É‰Ò‚°‚é‚¨‹à‚ÌãŒÀ‚ğ‘‚â‚·

@@ -26,7 +26,7 @@ public class FoodShop : MonoBehaviour
         foreach (var item in foodJsonData.foodInfos)
         {
             GameObject newFoodShop = Instantiate(foodShopPrefab, new Vector3(0, 0, 0), Quaternion.identity); //Prefabからコピーを作成
-            //newFoodShop.transform.SetParent(foodShopContent.transform, false);
+            newFoodShop.transform.SetParent(foodShopContent.transform, false); //時間帯によってラインナップを帰る場合はコメントアウト
             newFoodShop.GetComponent<FoodShopPrefab>().LoadFoodImage("1-" + (item.id));
             newFoodShop.GetComponent<FoodShopPrefab>().foodId = item.id;
             newFoodShop.GetComponent<FoodShopPrefab>().price = item.price;
@@ -34,7 +34,7 @@ public class FoodShop : MonoBehaviour
             foodShopList.Add(newFoodShop);
         }
 
-        SpawnFoodShop();
+        //SpawnFoodShop();
     }
 
     // Update is called once per frame
@@ -89,7 +89,6 @@ public class FoodShop : MonoBehaviour
             float discountPrice_f = foodShop.GetComponent<FoodShopPrefab>().price * ((0.5091f * (float)level - 0.4091f) * 0.0001f);
             int discountPrice = Mathf.CeilToInt(discountPrice_f);
             foodShop.GetComponent<FoodShopPrefab>().price -= discountPrice;
-            Debug.Log(discountPrice);
         }
     }
 

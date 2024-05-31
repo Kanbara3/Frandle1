@@ -10,35 +10,46 @@ public class Toy : MonoBehaviour
     public int toyId;
 
     // オブジェクト参照
-    public Button timeButton;
+    private Button timeButton;
     private TextMeshProUGUI timerText;
     private long XP = 0;
 
     private int currentTime; //現在時間
     public int timeToPlay;  //初期時間
+    public int price; //値段
 
     bool isActive = false; // タイマーフラグ
 
     private FoodManager foodManager;
     private MoneyManager moneyManager;
     private FrandleManager frandleManager;
+    private AutoXpManager autoXpManager;
 
     private DateTime lastTapTime; //最後に押した時間
-    private TimeSpan elapsedTime; //経過時間
+    public TimeSpan elapsedTime; //経過時間
 
     public long HeartIncreaseAmount = 1; // 好感度を増やす量
     public float MoneyIncreaseAmount = 1; //お金をブースト
 
     void Start()
     {
+        //ContinueToyWhileClosed();
         // ボタンを押してタイマー開始
         timeButton.onClick.AddListener(() =>
         {
-            isActive = true;
-            currentTime = timeToPlay;
-            lastTapTime = DateTime.UtcNow;
-            AdjustMoneyIncrease();
-            timeButton.interactable = false; //ボタン無効化
+            if (price < moneyManager.money)
+            {
+                isActive = true;
+                currentTime = timeToPlay;
+                lastTapTime = DateTime.UtcNow;
+                AdjustMoneyIncrease();
+                moneyManager.Pay(price);
+                timeButton.interactable = false; //ボタン無効化
+                if (this.name == "Ehon" || this.name == "Doll")
+                {
+                    autoXpManager.AutoXpGainOn(timeToPlay);
+                }
+            }
         });
 
     }
@@ -53,19 +64,27 @@ public class Toy : MonoBehaviour
         if (currentTime > 0)
         {
             elapsedTime = DateTime.UtcNow - lastTapTime;
-            //Debug.Log("経過時間：" + elapsedTime.TotalSeconds.ToString());
-            IncreaseHeartsAutomatically();
+            //for(int i = 0; i<elapsedTime.TotalSeconds; i++)
+            //{
+                IncreaseHeartsAutomatically();
+            //}
+            //IncreaseHeartsAutomatically();
+            
         }
         else
         {
-
             currentTime = timeToPlay; //秒数リセット
             elapsedTime = TimeSpan.FromSeconds(0); //経過時間リセット
             AdjustMoneyIncreaseDownward();
             timeButton.interactable = true; //ボタン有効化
             isActive = false;
+            if (this.name == "Ehon" || this.name == "Doll")
+            {
+                autoXpManager.AutoXpGainOff();
+            }
         }
         DisplayTimerText();
+        
     }
 
     // タイマー表示関数
@@ -89,9 +108,9 @@ public class Toy : MonoBehaviour
         timer += Time.deltaTime;
         if(timer >= interval)
         {
-            if (this.name == "Ehon") { frandleManager.GainXP((long)(XP * (HeartIncreaseAmount * 0.1 + 1))); }
-            if (this.name == "Doll") { frandleManager.GainXP((long)(XP * (HeartIncreaseAmount * 0.1 + 1)*1.5)); }
-            frandleManager.UpdateHeartUI();
+            //if (this.name == "Ehon") { frandleManager.GainXP((long)(frandleManager.oneTapIncrease * (HeartIncreaseAmount * 0.1 + 1))); }
+            //if (this.name == "Doll") { frandleManager.GainXP((long)(frandleManager.oneTapIncrease * (HeartIncreaseAmount * 0.1 + 1)*1.5)); }
+            //frandleManager.UpdateHeartUI();
             timer = 0f;
         }
     }
@@ -110,14 +129,13 @@ public class Toy : MonoBehaviour
         if (this.name == "Bomb") { moneyManager.moneyIncreaseBoost /= MoneyIncreaseAmount * 2f; }
     }
 
-    
-
     // セーブ
     public void SaveTimerFunction()
     {
         PlayerPrefs.SetString("lastTapTimeKey" + toyId, lastTapTime.ToString());
         PlayerPrefs.SetString("isActiveKey" + toyId, isActive.ToString());
-}
+        //PlayerPrefs.SetString("PauseTime" + toyId, pauseTime.ToString());
+    }
 
     // ロード
     public void LoadTimerFunction()
@@ -127,6 +145,8 @@ public class Toy : MonoBehaviour
         string flag = PlayerPrefs.GetString("isActiveKey" + toyId, "");
         isActive = Convert.ToBoolean(flag);
         if (isActive == true ) { timeButton.interactable = false; }
+        string pauseTime = PlayerPrefs.GetString("PauseTime" + toyId, "");
+        //this.pauseTime = DateTime.Parse(pauseTime);
     }
     
     
@@ -139,5 +159,16 @@ public class Toy : MonoBehaviour
         foodManager = GameObject.Find("FoodManager").GetComponent<FoodManager>();
         moneyManager = GameObject.Find("MoneyManager").GetComponent<MoneyManager>();
         frandleManager = GameObject.Find("Frandle").GetComponent<FrandleManager>();
+        if (this.name == "Ehon")
+        {
+            autoXpManager = GameObject.Find("AutoXpManagerEhon").GetComponent<AutoXpManager>();
+            autoXpManager.SetToy(this);
+        }
+        else
+        {
+            autoXpManager = GameObject.Find("AutoXpManagerDoll").GetComponent<AutoXpManager>();
+            autoXpManager.SetToy(this);
+        }
+        
     }
 }

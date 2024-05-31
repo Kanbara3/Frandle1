@@ -5,84 +5,84 @@
             "like":3,
             "mealTime": 1,
             "cuisineType": 1,
-            "price": 10
+            "price": 60
         },
         {
             "id": 2,
             "like": 5,
             "mealTime": 1,
             "cuisineType": 2,
-            "price": 20
+            "price": 100
         },
         {
             "id": 3,
             "like": 10,
             "mealTime": 1,
             "cuisineType": 3,
-            "price": 30
+            "price": 200
         },
         {
             "id": 4,
             "like": 15,
             "mealTime": 1,
             "cuisineType": 4,
-            "price": 40
+            "price": 300
         },
         {
             "id": 5,
-            "like": 20,
+            "like": 50,
             "mealTime": 2,
             "cuisineType": 1,
-            "price": 50
+            "price": 750
         },
         {
             "id": 6,
-            "like": 25,
+            "like": 60,
             "mealTime": 2,
             "cuisineType": 2,
-            "price": 60
+            "price": 900
         },
         {
             "id": 7,
-            "like": 30,
+            "like": 70,
             "mealTime": 2,
             "cuisineType": 3,
-            "price": 70
+            "price": 1050
         },
         {
             "id": 8,
-            "like": 35,
+            "like": 80,
             "mealTime": 2,
             "cuisineType": 4,
-            "price": 80
+            "price": 1200
         },
         {
             "id": 9,
-            "like": 40,
+            "like": 200,
             "mealTime": 3,
             "cuisineType": 1,
-            "price": 90
+            "price": 2000
         },
         {
             "id": 10,
-            "like": 50,
+            "like": 300,
             "mealTime": 3,
             "cuisineType": 2,
-            "price": 100
+            "price": 3000
         },
         {
             "id": 11,
-            "like": 60,
+            "like": 400,
             "mealTime": 3,
             "cuisineType": 3,
-            "price": 110
+            "price": 4000
         },
         {
             "id": 12,
-            "like": 70,
+            "like": 500,
             "mealTime": 3,
             "cuisineType": 4,
-            "price": 120
+            "price": 5000
         }
     ]
 }

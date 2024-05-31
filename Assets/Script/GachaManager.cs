@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using static Unity.VisualScripting.Antlr3.Runtime.Tree.TreeWizard;
 
 public class GachaManager : MonoBehaviour
 {
     public VisitorManager visitorManager;
     public MoneyManager moneyManager;
+    public GachaAnimationManager animManager;
     public Button turnButton;
     public Button ticketBuyButton;
     public TextMeshProUGUI ticketPriceText;
@@ -35,7 +37,12 @@ public class GachaManager : MonoBehaviour
     void Update()
     {
         SaveTicketNum();
-        if (Input.GetMouseButtonDown(0)) { gachaResultPanel.SetActive(false); Destroy(newTextObject); }
+        if (Input.GetMouseButtonDown(0))
+        {
+            gachaResultPanel.SetActive(false);
+            animManager.CloseGachaAnimationObject();
+            Destroy(newTextObject);
+        }
         if (Input.GetMouseButtonDown(0))
         {
             gachaResultPanel10.SetActive(false);
@@ -121,6 +128,7 @@ public class GachaManager : MonoBehaviour
             if (buyCount >= ticketPriceList.Count)
             {
                 ticketPrice = ticketPriceList[ticketPriceList.Count - 1];
+                ApplyBenefitId8();
                 buyCount++;
                 ticketCount++;
                 ticketNumText.text = ticketCount.ToString() + "枚";
@@ -128,6 +136,7 @@ public class GachaManager : MonoBehaviour
             else
             {
                 ticketPrice = ticketPriceList[buyCount];
+                ApplyBenefitId8();
                 ticketPriceText.text = "訪問チケット１枚／" + ticketPrice.ToString() + "円";
                 buyCount++;
                 ticketCount++;
@@ -136,6 +145,7 @@ public class GachaManager : MonoBehaviour
         }
     }
 
+    // チケットを割り引く
     public void DiscountTicketPrice(int level)
     {
         float discountPrice_f = ticketPrice * ((0.764f * (float)level - 0.664f) * 0.0001f);
@@ -143,11 +153,18 @@ public class GachaManager : MonoBehaviour
         ticketPrice -= discountPrice;
     }
 
+    private void ApplyBenefitId8()
+    {
+        Visitor id8Visitor = visitorManager.visitorList[7].GetComponent<Visitor>();
+        id8Visitor.ChatchFrandleLevelUped();
+    }
+
     // 1連ガチャを引いた時の演出
     GameObject newTextObject;
     void GachaEffect(int randomNumber, int visitorLevel)
     {
-        gachaResultPanel.SetActive(true);
+        animManager.PlayGachaAnimation(); //アニメーション
+        gachaResultPanel.SetActive(true); 
         Transform childVisitorTransform = gachaResultPanel.transform.GetChild(0);
         Transform childLevelTransform = gachaResultPanel.transform.GetChild(1);
         Image visitor = childVisitorTransform.GetComponent<Image>();
@@ -166,6 +183,7 @@ public class GachaManager : MonoBehaviour
     private List<GameObject> newTextObjects = new List<GameObject>();
     void GachaEffect10(int i, int randomNumber, int visitorLevel)
     {
+        animManager.PlayGachaAnimation(); //アニメーション
         gachaResultPanel10.SetActive(true);
         Transform childVisitorTransform = gachaResultPanel10.transform.GetChild(i);
         Transform childLevelTransform = childVisitorTransform.transform.GetChild(0);

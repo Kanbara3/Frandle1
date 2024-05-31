@@ -7,6 +7,7 @@ public class testButton : MonoBehaviour
     public GachaManager gachaManager;
     public FrandleManager frandleManager;
     public FrandleLevelManager frandleLevelManager;
+    public VisitorManager visitorManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +31,21 @@ public class testButton : MonoBehaviour
             frandleManager.UpdateHeartUI();
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        //if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    frandleManager.XP = 0;
+        //    frandleLevelManager.FrandleLevelUp(0);
+        //}
+
+        // 訪問者のレベルリセット
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            frandleManager.XP = 0;
-            frandleLevelManager.FrandleLevelUp(0);
+            for (int i = 0; i < visitorManager.visitorJsonData.visitorInfos.Length; i++)
+            {
+                //visitorLevelのセーブ
+                visitorManager.visitorList[i].GetComponent<Visitor>().level = 0;
+                visitorManager.visitorList[i].GetComponent<Visitor>().virtualLevel = 0;
+            }
         }
     }
 }

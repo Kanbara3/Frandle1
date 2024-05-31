@@ -87,6 +87,7 @@ public class FrandleManager : MonoBehaviour
     public void GainXP(long gainXP)
     {
         XP += gainXP;
+        UpdateHeartUI();
     }
 
     //満足度のセーブ
