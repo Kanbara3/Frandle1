@@ -25,7 +25,8 @@ public class BenefitManager : MonoBehaviour
         // ルーミア：ごはんを上げた時の好感度上昇(increaseXPRate)をブースト
         if (id == 3)
         {
-            foodManager.IncreaseXPRateIncrease(level);
+            float foodXpUpRate = 1 + (float)level / 100;
+            foodManager.foodXpIncreaseUpdate(foodXpUpRate, level);
         }
         // 大妖精：胃袋拡張
         if (id == 4)

@@ -109,12 +109,14 @@ public class FoodManager : MonoBehaviour
         desiredFoodImage.sprite = Resources.Load<Sprite>("FoodImage/" + "1-" + randomNumber);
     }
 
-    // –K–âÒ‚Ì‰¶Œb‚Å‚²‚Í‚ñ‚ğ—^‚¦‚½‚ÌDŠ´“x‘•—Ê(increaseXPRate)‚ğã¸‚³‚¹‚é
-    public void IncreaseXPRateIncrease(int upRate)
+    // UIXV
+    public void foodXpIncreaseUpdate(float upRate, int baseUp)
     {
         for (int i = 0; i < foodList.Count; i++)
         {
-            foodList[i].GetComponent<Food>().increaseXPRate = upRate + foodList[i].GetComponent<Food>().increaseXPRate;
+            long baseXP = foodList[i].GetComponent<Food>().baseXP;
+            foodList[i].GetComponent<Food>().increaseXp = (long)(baseXP * upRate + baseUp);
+            foodList[i].GetComponent<Food>().FoodTextUpdate();
         }
     }
 

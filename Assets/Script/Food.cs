@@ -24,12 +24,15 @@ public class Food : MonoBehaviour
     // ごはんを与えるButton
     private Button foodButton;
     // ごはんを与えた時の好感度増幅量
-    public long increaseXPRate = 1;
+    public long baseXP = 1;
+    public long increaseXp = 0;
+
     // foodの画像
     private Image foodImage;
 
     // 満腹度上昇値
     private int satietyIncreaseRate = 10;
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,8 +55,8 @@ public class Food : MonoBehaviour
             if (numFood == 0) return;
             numFood -= 1;
             //欲しがっているfoodをあげたときのブースト分岐
-            if (id == foodManager.desiredFoodId){ frandleManager.EatFood(increaseXPRate * 2, satietyIncreaseRate);}
-            else{ frandleManager.EatFood(increaseXPRate, satietyIncreaseRate);}
+            if (id == foodManager.desiredFoodId){ frandleManager.EatFood(increaseXp * 2, satietyIncreaseRate);}
+            else{ frandleManager.EatFood(increaseXp, satietyIncreaseRate);}
             FoodRecord();
             FoodTextUpdate();
             foodManager.CaluculateFoodStockSum();
@@ -64,7 +67,7 @@ public class Food : MonoBehaviour
     //Asset>Resources>FoodImageフォルダから画像を読み込み
     public void InitFood(string imagePath, long tapFood)
     {
-        this.increaseXPRate = tapFood;
+        this.baseXP = tapFood;
         foodImage.sprite = Resources.Load<Sprite>("FoodImage/" + imagePath);
     }
 
@@ -82,7 +85,7 @@ public class Food : MonoBehaviour
     public void FoodTextUpdate()
     {
         foodText.text = "×" + " " + numFood.ToString();
-        foodLikeText.text = "＋" + " " + increaseXPRate.ToString();
+        foodLikeText.text = "＋" + " " + increaseXp.ToString();
     }
 
     public bool hasEaten = false;
