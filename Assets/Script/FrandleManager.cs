@@ -169,6 +169,7 @@ public class FrandleManager : MonoBehaviour
     {
         this.harttext.GetComponent<TextMeshProUGUI>().text = XP.ToString("F0");
         levelManager.FrandleLevelUp(XP);
+        //Debug.Log("é¿çs");
     }
 
     private void Awake()

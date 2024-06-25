@@ -14,15 +14,19 @@ public class FoodShopPrefab : MonoBehaviour
     private Button buyButton;
     private TextMeshProUGUI numFoodText;
     private TextMeshProUGUI priceText;
+    private TextMeshProUGUI effectText;
 
     public int foodId; //FoodShop‚Å‘ã“üÏ
+    public int basePrice; //FoodShop‚Å‘ã“üÏ
     public int price;  //FoodShop‚Å‘ã“üÏ
-    public int mealTime; //FoodShop.cs‚Å‘ã“üÏ‚İ
+    public int effectValue;  //FoodShop‚ÅReferenceToIncreaseXp()‚É‚Ä‘ã“üÏ
+    public int mealTime; //FoodShop.cs‚Å‘ã“üÏ
 
     // Start is called before the first frame update
     void Start()
     {
         priceText.text = price + "‰~";
+        effectText.text = "Œø‰ÊF+" + effectValue;
         buyButton.onClick.AddListener(BuyButtonAction);
         NumFoodTextUpdate();
     }
@@ -55,6 +59,7 @@ public class FoodShopPrefab : MonoBehaviour
         //int numFood = foodManager.GetComponent<FoodManager>().foodList[foodId - 1].GetComponent<Food>().numFood;
         if (sumFoodNum < limitFoodNum)
         {
+            Debug.Log(price);
             if (moneyManager.Pay(price))
             {
                 foodManager.addFoodStock(foodId, 1);
@@ -76,6 +81,7 @@ public class FoodShopPrefab : MonoBehaviour
         foodImage = this.transform.GetChild(1).GetComponent<Image>();
         buyButton = this.transform.GetChild(2).GetComponent<Button>();
         numFoodText = this.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-        priceText = this.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        priceText = this.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        effectText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
     }
 }

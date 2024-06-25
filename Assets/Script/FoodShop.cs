@@ -11,6 +11,8 @@ public class FoodShop : MonoBehaviour
     public MoneyManager moneyManager;
     public FoodManager foodManager;
 
+    [SerializeField] private Button shopButton;
+
     public GameObject foodShopContent;
     public GameObject foodShopPrefab;
     private JsonData foodJsonData;
@@ -30,11 +32,13 @@ public class FoodShop : MonoBehaviour
             newFoodShop.GetComponent<FoodShopPrefab>().LoadFoodImage("1-" + (item.id));
             newFoodShop.GetComponent<FoodShopPrefab>().foodId = item.id;
             newFoodShop.GetComponent<FoodShopPrefab>().price = item.price;
+            newFoodShop.GetComponent<FoodShopPrefab>().basePrice = item.price;
             newFoodShop.GetComponent<FoodShopPrefab>().mealTime = item.mealTime;
             foodShopList.Add(newFoodShop);
         }
 
         //SpawnFoodShop();
+        RunWhenShopOpens();
     }
 
     // Update is called once per frame
@@ -88,8 +92,23 @@ public class FoodShop : MonoBehaviour
         {
             float discountPrice_f = foodShop.GetComponent<FoodShopPrefab>().price * ((0.5091f * (float)level - 0.4091f) * 0.0001f);
             int discountPrice = Mathf.CeilToInt(discountPrice_f);
-            foodShop.GetComponent<FoodShopPrefab>().price -= discountPrice;
+            foodShop.GetComponent<FoodShopPrefab>().price = foodShop.GetComponent<FoodShopPrefab>().basePrice - discountPrice;
         }
+    }
+
+    //Food.cs(Prefab)Ç…Ç†ÇÈincreaseXpÇFoodShopPrefbÇ…ÇªÇÍÇºÇÍéQè∆Ç≥ÇπÇÈ
+    private void ReferenceToIncreaseXp()
+    {
+        for (int i = 0; i < foodManager.foodList.Count; i++)
+        {
+            foodShopList[i].GetComponent<FoodShopPrefab>().effectValue = (int)foodManager.foodList[i].GetComponent<Food>().increaseXp;
+        }
+    }
+
+    //ShopÇäJÇ¢ÇΩéûÇ…é¿çs
+    private void RunWhenShopOpens()
+    {
+        shopButton.GetComponent<Button>().onClick.AddListener(ReferenceToIncreaseXp);
     }
 
     void readJson()

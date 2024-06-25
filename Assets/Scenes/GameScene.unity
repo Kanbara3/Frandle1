@@ -1233,6 +1233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moneyManager: {fileID: 180100603}
   foodManager: {fileID: 739861690}
+  shopButton: {fileID: 1022235551}
   foodShopContent: {fileID: 888799511}
   foodShopPrefab: {fileID: 7266285143657219863, guid: c1fcb0145d1685a47ab8af7a87b6fb43, type: 3}
   foodShopList: []
@@ -3515,7 +3516,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -69.80002, y: -114.8}
+  m_AnchoredPosition: {x: -69.799805, y: -114.8}
   m_SizeDelta: {x: 80.29999, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535647060
@@ -4139,7 +4140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -238.98, y: -47}
+  m_AnchoredPosition: {x: -238.98001, y: -47}
   m_SizeDelta: {x: 272.79, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &589698570
@@ -4410,7 +4411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -100.899994, y: 114.76}
+  m_AnchoredPosition: {x: -100.8999, y: 114.76}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611777732
@@ -7066,6 +7067,7 @@ GameObject:
   - component: {fileID: 945291290}
   - component: {fileID: 945291292}
   - component: {fileID: 945291291}
+  - component: {fileID: 945291293}
   m_Layer: 5
   m_Name: Touch Screen
   m_TagString: Untagged
@@ -7190,6 +7192,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945291289}
   m_CullTransparentMesh: 1
+--- !u!95 &945291293
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945291289}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 66df1c61e3d102148aa197825e6850e5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &971785747
 GameObject:
   m_ObjectHideFlags: 0
@@ -7416,7 +7438,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -113.899994, y: 0}
+  m_AnchoredPosition: {x: -113.8999, y: 0}
   m_SizeDelta: {x: 249, y: 88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1022235551
@@ -10829,8 +10851,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.23125002, y: -12.0529785}
-  m_SizeDelta: {x: 858.71, y: 108.8}
+  m_AnchoredPosition: {x: 0.23132324, y: -12.0529785}
+  m_SizeDelta: {x: 3000, y: 108.79999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1416624104
 MonoBehaviour:
@@ -11797,7 +11819,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 931801566}
   m_Direction: 2
   m_Value: 1.0000008
-  m_Size: 0.8235295
+  m_Size: 0.82352954
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13214,6 +13236,7 @@ GameObject:
   - component: {fileID: 1747465805}
   - component: {fileID: 1747465807}
   - component: {fileID: 1747465806}
+  - component: {fileID: 1747465808}
   m_Layer: 5
   m_Name: Touch Screen
   m_TagString: Untagged
@@ -13338,6 +13361,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747465804}
   m_CullTransparentMesh: 1
+--- !u!95 &1747465808
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747465804}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3ec8651fa4939744805772cf19212c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1763465455
 GameObject:
   m_ObjectHideFlags: 0
