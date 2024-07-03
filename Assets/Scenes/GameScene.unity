@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moneyText: {fileID: 421359350}
-  money: 0
+  money: 4000
   moneyIncrease: 1
   moneyIncreaseBoost: 1
   buyButton: {fileID: 0}
@@ -2333,10 +2333,10 @@ RectTransform:
   m_Father: {fileID: 532475680}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 308.23, y: -266.4}
-  m_SizeDelta: {x: 422.4, y: 50}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -268.77002, y: 33.600006}
+  m_SizeDelta: {x: 422.40002, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &421359350
 MonoBehaviour:
@@ -4140,7 +4140,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -238.98001, y: -47}
+  m_AnchoredPosition: {x: -238.98004, y: -47}
   m_SizeDelta: {x: 272.79, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &589698570
@@ -4275,7 +4275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 366, y: -55.800003}
+  m_AnchoredPosition: {x: 366, y: -55.80002}
   m_SizeDelta: {x: 341.77, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &605141735
@@ -7092,7 +7092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -191.81003, y: 32.139984}
+  m_AnchoredPosition: {x: -191.81, y: 32.139984}
   m_SizeDelta: {x: 383.92004, y: 64.29001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &945291291
@@ -9520,7 +9520,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 294.3, y: -55.800003}
+  m_AnchoredPosition: {x: 294.3, y: -55.80002}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1276936277

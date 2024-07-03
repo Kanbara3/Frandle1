@@ -19,6 +19,7 @@ public class GachaManager : MonoBehaviour
     public int ticketCount = 0; //チケットの所持数
     private int ticketPrice = 100;
     private List<int> ticketPriceList = new List<int> { 500, 1000, 5000, 10000, 20000, 40000, 60000 };
+    //private List<int> ticketPriceList = new List<int> { 10 };
 
     public GameObject gachaResultPanel;
     public GameObject gachaResultPanel10;
